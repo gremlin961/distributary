@@ -2,11 +2,28 @@ import os
 import sqlite3
 from flask import Flask, request, session, g, redirect, url_for, abort, \
      render_template, flash
-import sqlalchemy
 from flask_bootstrap import Bootstrap
+from urllib import parse
+import psycopg2
+from flask_sqlalchemy import SQLAlchemy
+import common
+
 
 app = Flask(__name__) # create the application instance :)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/test.db'
+
 Bootstrap(app)
+
+parse.uses_netloc.append("postgres")
+url = parse.urlparse(os.environ["DATABASE_URL"])
+
+conn = psycopg2.connect(
+    database=url.path[1:],
+    user=url.username,
+    password=url.password,
+    host=url.hostname,
+    port=url.port
+)
 
 # app.config.from_object(__name__) # load config from this file , flaskr.py
 #
