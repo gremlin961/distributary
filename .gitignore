@@ -3,3 +3,4 @@ env
 src/__pycache__/
 *.pyc
 secrets.txt
+*.bat
