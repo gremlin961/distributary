@@ -1,0 +1,6 @@
+flask
+requests
+sqlalchemy
+flask_bootstrap
+#gunicorn
+psycopg2
