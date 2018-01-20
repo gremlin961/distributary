@@ -2,5 +2,5 @@ flask
 requests
 sqlalchemy
 flask_bootstrap
-#gunicorn
+gunicorn
 psycopg2
