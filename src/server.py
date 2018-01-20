@@ -1,39 +1,12 @@
-import os
-import sqlite3
 from flask import Flask, request, session, g, redirect, url_for, abort, \
      render_template, flash
-from flask_bootstrap import Bootstrap
-from urllib import parse
-import psycopg2
-from flask_sqlalchemy import SQLAlchemy
 
+from src.models.models import DisUsers
+from src.common.common import db, app
+from sqlalchemy.exc import IntegrityError
 
-app = Flask(__name__) # create the application instance :)
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ["DATABASE_URL"]
+db.create_all()
 
-Bootstrap(app)
-
-# parse.uses_netloc.append("postgres")
-# url = parse.urlparse(os.environ["DATABASE_URL"])
-#
-# conn = psycopg2.connect(
-#     database=url.path[1:],
-#     user=url.username,
-#     password=url.password,
-#     host=url.hostname,
-#     port=url.port
-# )
-
-# app.config.from_object(__name__) # load config from this file , flaskr.py
-#
-# # Load default config and override config from an environment variable
-# app.config.update(dict(
-#     DATABASE=os.path.join(app.root_path, 'flaskr.db'),
-#     SECRET_KEY='development key',
-#     USERNAME='admin',
-#     PASSWORD='default'
-# ))
-# app.config.from_envvar('FLASKR_SETTINGS', silent=True)
 
 @app.route("/")
 def hello():
@@ -45,7 +18,18 @@ def show_entries():
     # db = get_db()
     # cur = db.execute('select title, text from entries order by id desc')
     # entries = cur.fetchall()
-    return render_template('show_entries.html', entries=None)
+    error = None
+    try:
+        admin = DisUsers(username='admin', email='admin@example.com')
+        db.session.add(admin)
+        db.session.commit()
+    except IntegrityError as e:
+        db.session.rollback()
+        if "dis_users_username_key" in str(e):
+            error = "User already exists."
+        else:
+            error = str(e)
+    return render_template('layout.html', error=error)
 
 @app.route('/add', methods=['POST'])
 def add_entry():
