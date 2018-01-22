@@ -1,11 +1,6 @@
 from flask import request, session, redirect, url_for, abort, \
      render_template, flash
-from sqlalchemy.exc import IntegrityError
-
-from distributary.common.worker import db, app
-from distributary.db_manager.models import DisUsers
-
-db.create_all()
+from __init__ import app
 
 
 @app.route("/")
@@ -19,16 +14,6 @@ def show_entries():
     # cur = db.execute('select title, text from entries order by id desc')
     # entries = cur.fetchall()
     error = None
-    try:
-        admin = DisUsers(username='admin', email='admin@example.com')
-        db.session.add(admin)
-        db.session.commit()
-    except IntegrityError as e:
-        db.session.rollback()
-        if "dis_users_username_key" in str(e):
-            error = "User already exists."
-        else:
-            error = str(e)
     return render_template('layout.html', error=error)
 
 @app.route('/add', methods=['POST'])
@@ -62,5 +47,7 @@ def logout():
     flash('You were logged out')
     return redirect(url_for('show_entries'))
 
+if __name__ == '__main__':
+    app.run(debug=True, port=5000)
 
 
