@@ -11,6 +11,10 @@ To run in Heroku -
 - git push heroku master
 - https://stark-river-28638.herokuapp.com/
 
+To run in Heroku from a different branch -
+- git push heroku \<branch>:master
+`--Note, you may need to use -f to force the branch`
+
 Handy Heroku commands -
 - heroku ps
 - heroku logs (--tail)
