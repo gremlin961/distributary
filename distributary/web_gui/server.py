@@ -2,9 +2,11 @@ from flask import request, session, redirect, url_for, abort, \
      render_template, flash
 from __init__ import app
 
+print("Top of server.py")
 
 @app.route("/")
 def hello():
+    print("Inside default url.")
     error=None
     return render_template('layout.html', error=error)
 
@@ -48,6 +50,7 @@ def logout():
     return redirect(url_for('show_entries'))
 
 if __name__ == '__main__':
+    print("Starting as main application")
     app.run(debug=True, port=5000)
 
 
