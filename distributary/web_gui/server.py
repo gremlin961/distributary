@@ -1,9 +1,9 @@
-from flask import Flask, request, session, g, redirect, url_for, abort, \
+from flask import request, session, redirect, url_for, abort, \
      render_template, flash
-
-from src.models.models import DisUsers
-from src.common.common import db, app
 from sqlalchemy.exc import IntegrityError
+
+from distributary.common.worker import db, app
+from distributary.db_manager.models import DisUsers
 
 db.create_all()
 

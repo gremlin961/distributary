@@ -1,4 +1,4 @@
-from src.common.common import db
+from distributary.common.worker import db
 
 class DisUsers(db.Model):
     id = db.Column(db.Integer, primary_key=True)

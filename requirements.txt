@@ -1,5 +1,7 @@
 flask
 requests
-flask_sqlalchemy
+sqlalchemy
 gunicorn
 psycopg2
+pika
+flask_restplus

@@ -4,7 +4,7 @@ To install -
 - pip install -r requirements.txt
 
 To run in Windows/locally - 
-- set FLASK_APP=.\src\server.py
+- set FLASK_APP=.\distributary\web_gui\server.py
 -  python -m flask run
 
 To run in Heroku -
