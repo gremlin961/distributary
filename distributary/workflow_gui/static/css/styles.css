@@ -1,6 +1,11 @@
-img{
-  width:40px;
-  height:40px;
-  margin-top:-10px;
-  float:right;
+#logo {
+  width: 40px;
+  height: 40px;
+  margin-top: -10px;
+  float: right;
+}
+
+#new_workflow {
+  float: right;
+  margin-right: 10px;
 }

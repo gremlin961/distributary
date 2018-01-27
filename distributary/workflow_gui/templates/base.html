@@ -16,7 +16,8 @@
     <!-- Optional theme -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
 
-      <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <script src="{{ url_for('static', filename='js/action.js') }}"></script>
 
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
@@ -36,7 +37,7 @@
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
           <a class="navbar-brand" href="#">
-              <img id="logo" src="static/distributary.svg" alt="distributary.io logo" >
+              <img id="logo" src="static/images/distributary.svg" alt="distributary.io logo" >
           </a>
         </div>
         <ul class="nav navbar-nav navbar-right">
@@ -52,7 +53,7 @@
                       <h2>Workflows</h2>
                     </div>
                     <ul class="nav navbar-nav navbar-right">
-                      <button type="button" class="btn navbar-btn glyphicon glyphicon-plus" style="position:absolute;"></button>
+                      <button id="new_workflow" type="button" class="btn navbar-btn glyphicon glyphicon-plus"></button>
                     </ul>
                 </div>
                 <ul class="list-group" id="workflows">
