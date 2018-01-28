@@ -27,3 +27,15 @@
 :-moz-placeholder { /* Firefox 18- */
   color: LightGray;
 }
+
+.col-lg-3 {
+  background-color: #EBF5FB;
+}
+
+li:hover {
+  background-color: #D0D3D4;
+}
+
+.activeWorkspace {
+  background-color: #EAFAF1;
+}
