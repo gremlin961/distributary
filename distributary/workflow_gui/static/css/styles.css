@@ -14,3 +14,16 @@
     color: white;
     margin-top: 15px;
 }
+
+::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+  color: LightGray;
+}
+::-moz-placeholder { /* Firefox 19+ */
+  color: LightGray;
+}
+:-ms-input-placeholder { /* IE 10+ */
+  color: LightGray;
+}
+:-moz-placeholder { /* Firefox 18- */
+  color: LightGray;
+}
