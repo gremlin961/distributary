@@ -1,3 +1,52 @@
+html, body {
+  height:100%;
+}
+
+body {
+  width: 100%;
+  margin: 0 auto;
+  min-height: 100%;
+}
+
+#wrapper {
+  height: 100%;
+  min-height: 100%;
+  overflow: auto;
+}
+
+.fill-height {
+  height: 100%;
+  min-height: 100%;
+  overflow: auto;
+  padding: 0px;
+  /*margin: 0px;*/
+
+}
+/* Grid borders */
+.row {
+    overflow: auto;
+    height: 100%;
+    min_height: 100%;
+}
+
+.container-fluid .row .col-lg-6 {
+  min-height: 100%;
+  background-color: #efefef;
+  /*margin-left: 5px;*/
+  padding-left: 20px;
+  padding-right: 20px;
+  border: 1px solid transparent;
+}
+
+.container-fluid .row .col-lg-3 {
+    background-color: #efefef;
+    min-height: 100%;
+    /*margin-left: 5px;*/
+    padding-left: 20px;
+    padding-right: 20px;
+    border: 2px solid #ffffff;
+}
+
 #logo {
   width: 40px;
   height: 40px;
@@ -5,9 +54,9 @@
   float: right;
 }
 
-#new_workflow {
+#newWorkflowButton {
   float: right;
-  margin-right: 10px;
+  padding-right: 10px;
 }
 
 #text-logo {
@@ -28,14 +77,46 @@
   color: LightGray;
 }
 
-.col-lg-3 {
-  background-color: #EBF5FB;
-}
-
 li:hover {
   background-color: #D0D3D4;
 }
 
-.activeWorkspace {
-  background-color: #EAFAF1;
+.dockerImage {
+  width: 50%;
+  height: 50%;
+  position: relative;
+}
+
+.slackImage {
+  width: 50%;
+  height: 50%;
+  position: relative;
+}
+
+.inputButton {
+  float: left;
+  width: 60%;
+  height: 60%;
+  position: relative;
+}
+
+.sparkImage {
+  width: 50%;
+  height: 50%;
+  position: relative;
+}
+
+.outputButton {
+  float: right;
+  width: 60%;
+  height: 60%;
+  position: relative;
+}
+
+#workspaceHeader {
+  padding-bottom: 40px;
+}
+
+h1 {
+    text-align: center;
 }

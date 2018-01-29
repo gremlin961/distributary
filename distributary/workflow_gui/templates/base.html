@@ -49,70 +49,77 @@
         </ul>
       </div>
     </nav>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-lg-3">
-                <div class="navbar">
-                    <div class="navbar-header">
-                      <h2>Workflows</h2>
+    <div id="wrapper">
+        <div class="container-fluid fill-height">
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="navbar">
+                        <div class="navbar-header">
+                          <h2>Workflows</h2>
+                        </div>
+                        <ul class="nav navbar-nav navbar-right">
+                          <button id="newWorkflowButton" type="button" data-toggle="modal" data-target="#newWorkspace" class="btn navbar-btn glyphicon glyphicon-plus"></button>
+                            <div class="modal fade" id="newWorkspace" tabindex="-1" role="dialog">
+                              <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                  <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    <h4 class="modal-title">New Workflow</h4>
+                                  </div>
+                                  <div class="modal-body">
+                                      <input type="text" id="workspace_name" placeholder="workflow">
+                                  </div>
+                                  <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                    <button type="button" class="btn btn-primary" onclick="AddWorkflow()" data-dismiss="modal">Add</button>
+                                  </div>
+                                </div><!-- /.modal-content -->
+                              </div><!-- /.modal-dialog -->
+                            </div><!-- /.modal -->
+                        </ul>
                     </div>
-                    <ul class="nav navbar-nav navbar-right">
-                      <button id="new_workflow" type="button" data-toggle="modal" data-target="#newWorkspace" class="btn navbar-btn glyphicon glyphicon-plus"></button>
-                        <div class="modal fade" id="newWorkspace" tabindex="-1" role="dialog">
-                          <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                              <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                <h4 class="modal-title">New Workflow</h4>
-                              </div>
-                              <div class="modal-body">
-                                  <input type="text" id="workspace_name" placeholder="workflow">
-                              </div>
-                              <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                                <button type="button" class="btn btn-primary" onclick="AddWorkflow()" data-dismiss="modal">Add</button>
-                              </div>
-                            </div><!-- /.modal-content -->
-                          </div><!-- /.modal-dialog -->
-                        </div><!-- /.modal -->
+                    <ul class="list-group" id="workflows">
+                      <!--
+                      <li class="list-group-item">First item</li>
+                      <li class="list-group-item">Second item</li>
+                      <li class="list-group-item">Third item</li>
+                      -->
                     </ul>
                 </div>
-                <ul class="list-group" id="workflows">
-                  <!--
-                  <li class="list-group-item">First item</li>
-                  <li class="list-group-item">Second item</li>
-                  <li class="list-group-item">Third item</li>
-                  -->
-                </ul>
-            </div>
-            <div id="workspace" class="col-lg-6">
-
-            </div>
-            <div class="col-lg-3">
-                <!--
-                <h2>Attributes</h2>
-                <form>
-                  <div class="form-group">
-                    <label for="input1">Input 1</label>
-                    <input type="text" class="form-control" id="input1" placeholder="Input1">
-                  </div>
-                  <div class="form-group">
-                    <label for="input2">Input 2</label>
-                    <input type="text" class="form-control" id="input2" placeholder="Input2">
-                  </div>
-                  <div class="form-group">
-                    <label for="input3">Input 3</label>
-                    <input type="text" id="input3">
-                    <p class="help-block">Example block-level help text here.</p>
-                  </div>
-                  <div class="checkbox">
-                    <label>
-                      <input type="checkbox"> Check me out
-                    </label>
-                  </div>
-                  <button type="submit" class="btn">Submit</button>
-                </form>
-                -->
+                <div id="workspace" class="col-lg-6">
+                    <div id="headerPlaceholder"></div>
+                    <div class="container-fluid">
+                        <div id="wsInput" class="col-lg-4"></div>
+                        <div id="wsCenter" class="col-lg-4"></div>
+                        <div id="wsOutput" class="col-lg-4"></div>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <!--
+                    <h2>Attributes</h2>
+                    <form>
+                      <div class="form-group">
+                        <label for="input1">Input 1</label>
+                        <input type="text" class="form-control" id="input1" placeholder="Input1">
+                      </div>
+                      <div class="form-group">
+                        <label for="input2">Input 2</label>
+                        <input type="text" class="form-control" id="input2" placeholder="Input2">
+                      </div>
+                      <div class="form-group">
+                        <label for="input3">Input 3</label>
+                        <input type="text" id="input3">
+                        <p class="help-block">Example block-level help text here.</p>
+                      </div>
+                      <div class="checkbox">
+                        <label>
+                          <input type="checkbox"> Check me out
+                        </label>
+                      </div>
+                      <button type="submit" class="btn">Submit</button>
+                    </form>
+                    -->
+                </div>
             </div>
         </div>
     </div>
