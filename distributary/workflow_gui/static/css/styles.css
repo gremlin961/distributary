@@ -98,6 +98,7 @@ li:hover {
   width: 60%;
   height: 60%;
   position: relative;
+  margin-top: 10px;
 }
 
 .sparkImage {
@@ -107,16 +108,54 @@ li:hover {
 }
 
 .outputButton {
-  float: right;
+  float: left;
   width: 60%;
   height: 60%;
   position: relative;
+  margin-top: 10px;
+}
+
+.inputButton:hover {
+  background-color: #ABB2B9;
+}
+
+.outputButton:hover {
+  background-color: #ABB2B9;
+}
+
+#workButtonInput {
+  float: left;
+  height: 100%;
+}
+
+#workButtonOutput  {
+  float: left;
+  height: 100%;
+}
+
+#workButtonInput:hover {
+  background-color: #D4E6F1;
+}
+
+#workButtonOutput:hover {
+  background-color: #D4E6F1;
 }
 
 #workspaceHeader {
-  padding-bottom: 40px;
+  background-color: #808B96;
+  color: #ffffff;
+  margin-bottom: 40px;
 }
 
 h1 {
     text-align: center;
+}
+
+#workSubHeader {
+  padding-bottom: 30px;
+}
+
+.connectorLine {
+  stroke:#006600;
+  stroke-width: 2px;
 }
