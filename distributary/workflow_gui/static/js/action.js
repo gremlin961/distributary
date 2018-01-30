@@ -21,6 +21,9 @@ $(document).ready(function () {
         modal.find('.modal-body input').val("");
     });
 
+    $('#attributes').addClass('hidden');
+    hideAllAttributes();
+
     // store the workflows in the session cache to retain across
     // refreshes - will be replaced by server side code  [SERVER]
     tmp = sessionStorage.getItem("savedWorkflows")
@@ -64,6 +67,8 @@ function loadWorkflow(name) {
     clearOutputSpace();
     createOutputHeader();
     createOutputSection();
+
+    $('#workspace').removeClass('hidden');
 }
 
 function connectComponents() {
@@ -92,6 +97,11 @@ function connectComponents() {
 //    }
 }
 
+function openAttributes() {
+    //alert('Attributes!');
+    $('#attributes').removeClass('hidden');
+}
+
 // User has selected a 'Connect from' component
 function AddInputComponent(componentType) {
     //alert('Adding new input component.')
@@ -108,9 +118,15 @@ function AddInputComponent(componentType) {
     work_button.href = '#';
     work_item.className = "inputComponent";
 
+    work_item.onclick = function() {
+        hideAllAttributes();
+        openAttributes();
+        $('.dockerAttributes').removeClass('hidden');
+    }
+
     if(componentType == 'docker') {
         work_button.alt = "Docker DTR";
-        work_button.innerHTML = "<img class='dockerImage' src='static/images/docker-official.svg'></img>";
+        work_button.innerHTML = "<img class='dockerImage icon' src='static/images/docker-official.svg'></img>";
     }
     work_button.id = 'workButtonInput';
 
@@ -142,17 +158,17 @@ function createInputSection() {
 
     /*  Button as anchor type */
     var input_section = document.createElement("div");
-    input_section.className = "dropdown";
+    input_section.className = "dropdown inputButtonSection";
     var input_button = document.createElement("a");
     input_button.alt = "Add input item."
     input_button.href = '#';
     input_button.className = "dropdown-toggle";
     input_button.setAttribute("data-toggle", "dropdown");
-    input_button.innerHTML = "<img class='inputButton' src='static/images/add.svg'></img>";
+    input_button.innerHTML = "<img class='inputButton icon' src='static/images/add.svg'></img>";
 
     var input_buttion_list = document.createElement("ul");
     input_buttion_list.className = "dropdown-menu";
-    input_buttion_list.innerHTML = "<li><a href='#' id='dockerItem'><img class='dockerImage' src='static/images/docker-official.svg'></img></a></li>";
+    input_buttion_list.innerHTML = "<li><a href='#' id='dockerItem'><img class='dockerImage icon' src='static/images/docker-official.svg'></img></a></li>";
 
     input_section.appendChild(input_buttion_list);
     input_section.appendChild(input_button);
@@ -166,7 +182,7 @@ function createInputSection() {
 }
 
 function clearAddComponentButton() {
-    $('.dropdown').remove();
+    $('.dropdown.outputButtonSection').remove();
 }
 
 function AddOutputComponent(componentType) {
@@ -186,13 +202,24 @@ function AddOutputComponent(componentType) {
 
     if(componentType == 'slack') {
         work_button.alt = "Slack"
-        work_button.innerHTML = "<img class='slackImage' src='static/images/slack-1.svg'></img>";
+        work_button.innerHTML = "<img class='slackImage icon' src='static/images/slack-1.svg'></img>";
+        work_item.onclick = function() {
+            hideAllAttributes();
+            openAttributes();
+            $('.slackAttributes').removeClass('hidden');
+            }
     }
 
     if(componentType == 'spark') {
         work_button.alt = "Spark"
-        work_button.innerHTML = "<img class='sparkImage' src='static/images/CiscoSpark--228528873.png'></img>";
+        work_button.innerHTML = "<img class='sparkImage icon' src='static/images/spark-logo.svg'></img>";
+        work_item.onclick = function() {
+            hideAllAttributes();
+            openAttributes();
+            $('.sparkAttributes').removeClass('hidden');
+            }
     }
+
     work_button.id = 'workButtonOutput';
     work_item.appendChild(work_button);
     output_space.appendChild(work_item);
@@ -200,6 +227,18 @@ function AddOutputComponent(componentType) {
     createOutputSection();
 
     connectComponents();
+}
+
+function hideAllAttributes() {
+    $('.dockerAttributes').addClass('hidden');
+    $('.slackAttributes').addClass('hidden');
+    $('.sparkAttributes').addClass('hidden');
+
+    var item = $('.slackAttributes')
+    item.find('input').val('');
+
+    var item2 = $('.sparkAttributes')
+    item2.find('input').val('');
 }
 
 function clearOutputSpace() {
@@ -224,18 +263,18 @@ function createOutputSection() {
 
     /*  Button as anchor type */
     var output_section = document.createElement("div");
-    output_section.className = "dropdown";
+    output_section.className = "dropdown outputButtonSection";
     var output_button = document.createElement("a");
     output_button.alt = "Add input item."
     output_button.href = '#';
     output_button.className = "dropdown-toggle";
     output_button.setAttribute("data-toggle", "dropdown");
-    output_button.innerHTML = "<img class='outputButton' src='static/images/add.svg'></img>";
+    output_button.innerHTML = "<img class='outputButton icon' src='static/images/add.svg'></img>";
 
     var output_buttion_list = document.createElement("ul");
     output_buttion_list.className = "dropdown-menu";
     output_buttion_list.innerHTML =
-        "<li><a href='#' id='slackItem'><img class='slackImage' src='static/images/slack-1.svg'></img></a></li><li><a href='#' id='sparkItem'><img class='sparkImage' src='static/images/CiscoSpark--228528873.png'></img></a></li>";
+        "<li><a href='#' id='slackItem'><img class='slackImage icon' src='static/images/slack-1.svg'></img></a></li><li><a href='#' id='sparkItem'><img class='sparkImage icon' src='static/images/spark-logo.svg'></img></a></li>";
 
     output_section.appendChild(output_buttion_list);
     output_section.appendChild(output_button);
@@ -244,11 +283,13 @@ function createOutputSection() {
     $('#slackItem').click(function(e){
         e.preventDefault();
         AddOutputComponent('slack');
+        hideAllAttributes();
     });
 
     $('#sparkItem').click(function(e){
         e.preventDefault();
         AddOutputComponent('spark');
+        hideAllAttributes();
     });
 }
 

@@ -52,7 +52,7 @@
     <div id="wrapper">
         <div class="container-fluid fill-height">
             <div class="row">
-                <div class="col-lg-3">
+                <div class="col-xs-3">
                     <div class="navbar">
                         <div class="navbar-header">
                           <h2>Workflows</h2>
@@ -82,39 +82,42 @@
 
                     </ul>
                 </div>
-                <div id="workspace" class="col-lg-6">
+                <div id="workspace" class="col-xs-6 hidden">
                     <div id="headerPlaceholder"></div>
                     <div class="container-fluid">
-                        <div id="wsInput" class="col-lg-4"></div>
-                        <div id="wsCenter" class="col-lg-4"></div>
-                        <div id="wsOutput" class="col-lg-4"></div>
+                        <div id="wsInput" class="col-xs-4"></div>
+                        <div id="wsCenter" class="col-xs-4"></div>
+                        <div id="wsOutput" class="col-xs-4"></div>
                     </div>
                 </div>
-                <div class="col-lg-3">
-                    <!--
-                    <h2>Attributes</h2>
-                    <form>
-                      <div class="form-group">
-                        <label for="input1">Input 1</label>
-                        <input type="text" class="form-control" id="input1" placeholder="Input1">
-                      </div>
-                      <div class="form-group">
-                        <label for="input2">Input 2</label>
-                        <input type="text" class="form-control" id="input2" placeholder="Input2">
-                      </div>
-                      <div class="form-group">
-                        <label for="input3">Input 3</label>
-                        <input type="text" id="input3">
-                        <p class="help-block">Example block-level help text here.</p>
-                      </div>
-                      <div class="checkbox">
-                        <label>
-                          <input type="checkbox"> Check me out
-                        </label>
-                      </div>
-                      <button type="submit" class="btn">Submit</button>
-                    </form>
-                    -->
+                <div id="attributes" class="col-xs-3 hidden">
+                    <div class="dockerAttributes hidden">
+                        <h2>Directions</h2>
+                        <p>Copy the code below and paste it into your DTR webhook links.</p>
+                        <p>XXXXXyyyyyZZZZZZ1111112222222PPPPPPPP</p>
+                    </div>
+                    <div class="slackAttributes hidden">
+                        <h2>Directions</h2>
+                        <p>Enter the required information below.</p>
+                        <form>
+                          <div class="form-group">
+                            <!-- <label for="slackInput1">Slack Channel</label> -->
+                            <input type="text" class="form-control" id="slackInput1" placeholder="Slack Channel">
+                          </div>
+                          <button type="submit" class="btn">Submit</button>
+                        </form>
+                    </div>
+                    <div class="sparkAttributes hidden">
+                        <h2>Directions</h2>
+                        <p>Enter the required information below.</p>
+                        <form>
+                          <div class="form-group">
+                            <!-- <label for="sparkInput1">Spark Room</label> -->
+                            <input type="text" class="form-control" id="sparkInput1" placeholder="Spark Room">
+                          </div>
+                          <button type="submit" class="btn">Submit</button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
