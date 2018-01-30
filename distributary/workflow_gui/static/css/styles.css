@@ -6,6 +6,7 @@ body {
   width: 100%;
   margin: 0 auto;
   min-height: 100%;
+  /*font-size: 200%;*/
 }
 
 #wrapper {
@@ -63,6 +64,7 @@ body {
 #wsCenter {
   background-color: #EAEDED;
   min-height: 100%;
+  height: 100%;
 }
 
 #logo {
@@ -181,4 +183,12 @@ h1 {
 .connectorLine {
   stroke:#006600;
   stroke-width: 2px;
+}
+
+/* p { word-break: break-all } */
+
+#dockerCode {
+  background-color: #ffffff;
+  color: #2471A3;
+  /*font-size: 1em;*/
 }
