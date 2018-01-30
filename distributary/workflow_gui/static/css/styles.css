@@ -6,32 +6,32 @@ body {
   width: 100%;
   margin: 0 auto;
   min-height: 100%;
-  /*font-size: 200%;*/
+  font-size: 200%;
 }
 
 #wrapper {
   height: 100%;
   min-height: 100%;
-  overflow: auto;
+  overflow: hidden;
 }
 
 .fill-height {
   height: 100%;
   min-height: 100%;
-  overflow: auto;
+  overflow: hidden;
   padding: 0px;
   /*margin: 0px;*/
 
 }
 /* Grid borders */
 .row {
-  overflow: auto;
+  overflow: hidden;
   height: 100%;
   min_height: 100%;
 }
 
 .container-fluid .row .col-xs-6 {
-  overflow: auto;
+  overflow: hidden;
   height: 100%;
   min-height: 100%;
   background-color: #efefef;
@@ -185,10 +185,9 @@ h1 {
   stroke-width: 2px;
 }
 
-/* p { word-break: break-all } */
-
 #dockerCode {
+  word-break: break-all;
   background-color: #ffffff;
   color: #2471A3;
-  /*font-size: 1em;*/
+  font-size: 1em;
 }
