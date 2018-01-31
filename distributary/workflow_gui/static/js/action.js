@@ -34,8 +34,10 @@ $(document).ready(function () {
         workflows.forEach(function(element){
             AddWorkflowToGUI(element);
             });
-        }
-    })
+    }
+
+    GetWorkflows();
+})
 
 
 // Create the center workspace area
@@ -293,22 +295,54 @@ function createOutputSection() {
     });
 }
 
-function AddWorkflow() {
-    console.log(workflows)
-    var workspace = document.getElementById('workspace_name').value;
-    workflows.push(workspace);
-    sessionStorage.setItem("savedWorkflows", JSON.stringify(workflows));
-    AddWorkflowToGUI(workspace);
+function GetWorkflows()
+{
+    var workspace_action = new XMLHttpRequest();
+
+    workspace_action.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            console.log(this.responseText);
+            var results = JSON.parse(this.responseText);
+            console.log(results);
+            AddWorkflowToGUI(results);
+       }
+    };
+    workspace_action.open('GET', '/workspace');
+    workspace_action.send();
 }
 
-function AddWorkflowToGUI(element) {
+function AddWorkflow() {
+    console.log(workflows)
+    var value=$('#workspace_name').val();
+    var workspace_action = new XMLHttpRequest();
+
+    workspace_action.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            console.log(this.responseText);
+            var results = JSON.parse(this.responseText);
+            console.log(results);
+            AddWorkflowToGUI(results);
+       }
+    };
+    workspace_action.open('POST', '/workspace');
+    workspace_action.send(JSON.stringify(value));
+}
+
+function AddWorkflowToGUI(elements) {
     var list = document.getElementById('workflows');
-    var entry = document.createElement('li');
-    entry.className = "list-group-item";
-    entry.onclick = function() {
-        loadWorkflow(element);
-        }
-    entry.appendChild(document.createTextNode(element));
-    list.appendChild(entry);
+    // Clear out all child elements for new workspace
+    while (list.firstChild) {
+        list.removeChild(list.firstChild);
+    }
+
+    elements.forEach(function(element) {
+        var entry = document.createElement('li');
+        entry.className = "list-group-item";
+        entry.onclick = function() {
+            loadWorkflow(element.name);
+            }
+        entry.appendChild(document.createTextNode(element.name));
+        list.appendChild(entry);
+    });
 }
 

@@ -4,9 +4,12 @@ from __init__ import app
 from flask import make_response
 from functools import wraps, update_wrapper
 from datetime import datetime
+import uuid
+import json
 
 print("Top of server.py")
 
+workspaces = []
 
 def nocache(view):
     @wraps(view)
@@ -22,13 +25,23 @@ def nocache(view):
 
 @app.route("/")
 @nocache
-def workspace():
-    print("Inside workspace url.")
+def base_page():
+    print("Inside base_page url.")
     error=None
     return render_template('base.html', error=error)
+
+
+@app.route('/workspace', methods=['GET', "POST"])
+def workspace():
+    ws_uuid = uuid.uuid4()
+    if request.method == 'POST':
+        print(request.data)
+        data = {'name':json.loads(request.data), 'id':str(ws_uuid)}
+        workspaces.append(data)
+
+    return json.dumps(workspaces)
 
 if __name__ == '__main__':
     print("Starting as main application")
     app.run(debug=True, port=5002)
-
 

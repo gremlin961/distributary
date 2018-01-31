@@ -136,11 +136,13 @@ li:hover {
 }
 
 .inputButton:hover {
-  background-color: #ABB2B9;
+  /*background-color: #ABB2B9;*/
+  filter: invert(20%);
 }
 
 .outputButton:hover {
-  background-color: #ABB2B9;
+  /*background-color: #ABB2B9;*/
+  filter: invert(20%);
 }
 
 .icon {
