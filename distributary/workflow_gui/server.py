@@ -59,6 +59,12 @@ def attributes():
     return render_template(template)
 
 
+@app.route('/createwebhook', methods=['POST'])
+def create_webhook():
+    print(request.form)
+
+    return "ok", 200
+
 if __name__ == '__main__':
     print("Starting as main application")
     app.run(debug=True, port=5002)
