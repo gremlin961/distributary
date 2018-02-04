@@ -23,6 +23,7 @@ def nocache(view):
 
     return update_wrapper(no_cache, view)
 
+
 @app.route("/")
 @nocache
 def base_page():
@@ -31,7 +32,7 @@ def base_page():
     return render_template('base.html', error=error)
 
 
-@app.route('/workspace', methods=['GET', "POST"])
+@app.route('/workspace', methods=['GET', 'POST'])
 def workspace():
     ws_uuid = uuid.uuid4()
     if request.method == 'POST':
@@ -40,6 +41,23 @@ def workspace():
         workspaces.append(data)
 
     return json.dumps(workspaces)
+
+
+@app.route('/attributes', methods=['POST'])
+def attributes():
+    attr_type =  request.form.getlist('type')
+    template = 'attr_404.html';
+
+    # TODO: Parse the type to get the html fragment to use
+    if(attr_type[0]=='docker'):
+        template='dtr.html'
+    if(attr_type[0]=='slack'):
+        template='slack.html'
+    if(attr_type[0]=='spark'):
+        template='spark.html'
+
+    return render_template(template)
+
 
 if __name__ == '__main__':
     print("Starting as main application")

@@ -73,34 +73,12 @@ function loadWorkflow(name) {
     $('#workspace').removeClass('hidden');
 }
 
-function connectComponents() {
-//    var inputComponent = $('.inputComponent');
-//    var outputComponent = $('.outputComponent');
-////
-//    if(inputComponent.length > 0 && outputComponent.length > 0) {
-//      var centerWorkspace = document.getElementById('wsCenter');
-//      var arrowSpan = document.createElement('span');
-//
-//      arrowSpan.innerHTML = '&#8594;'
-//      centerWorkspace.appendChild(arrowSpan);
-//
-////        var pos1 = inputComponent.offset();
-////        var pos2 = outputComponent.offset();
-////        var svg = document.createElement('svg');
-////        var line = document.createElement('line');
-////
-////        line.className = 'connectorLine';
-////        svg.appendChild(line);
-////        document.body.appendChild(svg);
-////
-////        line = $('.connectorLine');
-////
-////        line.attr('x1',pos1.left).attr('y1',pos1.top).attr('x2',pos2.left).attr('y2',pos2.top);
-//    }
-}
-
-function openAttributes() {
+function openAttributes(type) {
     //alert('Attributes!');
+    $('#attributes').load('/attributes', {'type': type}, function()
+        {
+            $('.pluginAttributes').removeClass('hidden');
+        });
     $('#attributes').removeClass('hidden');
 }
 
@@ -122,10 +100,11 @@ function AddInputComponent(componentType) {
 
     work_item.onclick = function() {
         hideAllAttributes();
-        openAttributes();
-        $('.dockerAttributes').removeClass('hidden');
+        openAttributes(componentType);
+        /*$('.dockerAttributes').removeClass('hidden');*/
     }
 
+    /* TODO: make this dynamic */
     if(componentType == 'docker') {
         work_button.alt = "Docker DTR";
         work_button.innerHTML = "<img class='dockerImage icon' src='static/images/docker-official.svg'></img>";
@@ -135,7 +114,6 @@ function AddInputComponent(componentType) {
     work_item.appendChild(work_button);
     input_space.appendChild(work_item);
 
-    connectComponents();
 }
 
 function clearInputSpace() {
@@ -202,24 +180,26 @@ function AddOutputComponent(componentType) {
     work_button.href = '#';
     work_item.className = "outputComponent";
 
+    /* TODO: make this dynamic */
     if(componentType == 'slack') {
         work_button.alt = "Slack"
         work_button.innerHTML = "<img class='slackImage icon' src='static/images/slack-1.svg'></img>";
         work_item.onclick = function() {
             hideAllAttributes();
-            openAttributes();
-            $('.slackAttributes').removeClass('hidden');
-            }
+            openAttributes(componentType);
+            /* $('.slackAttributes').removeClass('hidden'); */
+        }
     }
 
+    /* TODO: make this dynamic */
     if(componentType == 'spark') {
         work_button.alt = "Spark"
         work_button.innerHTML = "<img class='sparkImage icon' src='static/images/spark-logo.svg'></img>";
         work_item.onclick = function() {
             hideAllAttributes();
-            openAttributes();
-            $('.sparkAttributes').removeClass('hidden');
-            }
+            openAttributes(componentType);
+            /* $('.sparkAttributes').removeClass('hidden'); */
+        }
     }
 
     work_button.id = 'workButtonOutput';
@@ -228,19 +208,14 @@ function AddOutputComponent(componentType) {
 
     createOutputSection();
 
-    connectComponents();
 }
 
 function hideAllAttributes() {
-    $('.dockerAttributes').addClass('hidden');
-    $('.slackAttributes').addClass('hidden');
-    $('.sparkAttributes').addClass('hidden');
-
-    var item = $('.slackAttributes')
-    item.find('input').val('');
-
-    var item2 = $('.sparkAttributes')
-    item2.find('input').val('');
+    var attributes = document.getElementById('attributes');
+    // Clear out all child elements for new workspace
+    while (attributes.firstChild) {
+        attributes.removeChild(attributes.firstChild);
+    }
 }
 
 function clearOutputSpace() {
