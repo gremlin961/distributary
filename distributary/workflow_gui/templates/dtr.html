@@ -1,54 +1,47 @@
 <div class="pluginAttributes hidden">
     <h2><b>Directions</b></h2>
-    <p>Select the items you wish to be notified on.</p>
     <div>
         <!-- <form action="{{ url_for('create_webhook') }}" method="post"> -->
         <form id="attributeForm">
+            <p>Select the repository you want notifications from.</p>
+            <div class="form-group">
+                <label for="repos">Repositories:</label>
+                <select type="text" class="form-control" name="repos" id="repos" required></select>
+            </div>
+            <p>Select the items you wish to be notified on.</p>
             <div class="checkbox">
-              <label><input type="checkbox" name="opt1" value="1">Tag pushed to repository.</label>
+              <label><input type="checkbox" name="tag_push" value="1">Tag pushed to repository.</label>
             </div>
             <div class="checkbox">
-              <label><input type="checkbox" name="opt2" value="1">Tag deleted from repository</label>
+              <label><input type="checkbox" name="tag_del" value="1">Tag deleted from repository</label>
             </div>
             <div class="checkbox">
-              <label><input type="checkbox" name="opt3" value="1">Manifest pushed to repository.</label>
+              <label><input type="checkbox" name="man_push" value="1">Manifest pushed to repository.</label>
             </div>
             <div class="checkbox">
-              <label><input type="checkbox" name="opt4" value="1">Manifest deleted from repository.</label>
+              <label><input type="checkbox" name="man_del" value="1">Manifest deleted from repository.</label>
             </div>
             <div class="checkbox">
-              <label><input type="checkbox" name="opt5" value="1">Security scan completed.</label>
+              <label><input type="checkbox" name="sec_comp" value="1">Security scan completed.</label>
             </div>
             <div class="checkbox">
-              <label><input type="checkbox" name="opt6" value="1">Security scan failed.</label>
+              <label><input type="checkbox" name="sec_fail" value="1">Security scan failed.</label>
             </div>
             <div class="checkbox">
-              <label><input type="checkbox" name="opt7" value="1">Image promoted from repository.</label>
+              <label><input type="checkbox" name="promote_img" value="1">Image promoted from repository.</label>
             </div>
             <hr />
-            <div class="form-group">
-                <label for="url">DTR URL:</label>
-                <input type="url" class="form-control" name="url" id="url">
-            </div>
-            <div class="form-group">
-                <label for="user">DTR User:</label>
-                <input type="user" class="form-control" name="user" id="user">
-            </div>
-            <div class="form-group">
-                <label for="pwd">DTR Password:</label>
-                <input type="password" class="form-control" name="pwd" id="pwd">
-            </div>
             <button type="submit" class="btn btn-default">Submit</button>
         </form>
     </div>
     <script>
     $('#attributeForm').submit(function(event) {
         event.preventDefault();
+        var formData = $(this).serialize();
         $.ajax({
-            type: 'POST',
+            method: 'POST',
             url: "{{ url_for('create_webhook') }}",
-            data: { username: $(this).user.val(),
-                    password: $(this).pwd.val() }
+            data: formData + '&uuid=' + $('.list-group-item.active').attr('id')
         });
     });
     </script>

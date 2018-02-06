@@ -15,7 +15,7 @@ $(document).ready(function () {
     });
 
     // workflow creation modal, when hiding, clear text entry field
-    $(".modal").on("hidden.bs.modal", function(){
+    $(".modal#newWorkspace").on("hidden.bs.modal", function(){
         console.log('Hiding modal');
         var modal = $(this);
         modal.find('.modal-body input').val("");
@@ -99,21 +99,23 @@ function AddInputComponent(componentType) {
     work_item.className = "inputComponent";
 
     work_item.onclick = function() {
+        /* TODO: take Docker specifics out of here */
+        $('#newDTRWorkspace').modal('show');
         hideAllAttributes();
         openAttributes(componentType);
-        /*$('.dockerAttributes').removeClass('hidden');*/
     }
 
     /* TODO: make this dynamic */
     if(componentType == 'docker') {
         work_button.alt = "Docker DTR";
         work_button.innerHTML = "<img class='dockerImage icon' src='static/images/docker-official.svg'></img>";
+        $('#modalPlaceholder').load('/dockerlogin');
     }
+
     work_button.id = 'workButtonInput';
 
     work_item.appendChild(work_button);
     input_space.appendChild(work_item);
-
 }
 
 function clearInputSpace() {
@@ -313,6 +315,8 @@ function AddWorkflowToGUI(elements) {
     elements.forEach(function(element) {
         var entry = document.createElement('li');
         entry.className = "list-group-item";
+        entry.setAttribute('id', element.id);
+
         entry.onclick = function() {
             loadWorkflow(element.name);
             }

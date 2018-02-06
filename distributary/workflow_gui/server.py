@@ -6,10 +6,14 @@ from functools import wraps, update_wrapper
 from datetime import datetime
 import uuid
 import json
+from requests.auth import HTTPBasicAuth
+import requests
 
 print("Top of server.py")
 
 workspaces = []
+docker_states = ['tag_push', 'tag_del', 'man_push', 'man_del', 'sec_comp', 'sec_fail', 'promote_img']
+
 
 def nocache(view):
     @wraps(view)
@@ -43,6 +47,39 @@ def workspace():
     return json.dumps(workspaces)
 
 
+@app.route('/dockerlogin', methods=['GET'])
+def docker_login():
+    return render_template('dtr_login.html')
+
+
+@app.route('/dockerrepos', methods=['POST'])
+def docker_repos():
+    repos = []
+    print('dockerrepos:', request.form)
+
+    url = request.form.get('url')
+    user = request.form.get('user')
+    password = request.form.get('pwd')
+    uuid = request.form.get('uuid')
+
+    # TODO: It's the Hotel California, you check in but you don't check out
+    session['user'] = user
+    session['pass'] = password
+    session['url'] = url
+    session['uuid'] = uuid
+
+    payload = {'pageSize': '50'}
+    resp = requests.get(url + '/api/v0/repositories', params=payload, auth=HTTPBasicAuth(user, password), verify=False)
+
+    data  = resp.json()['repositories']
+    for repo in data:
+        repos.append(repo['namespace'] + '/' + repo['name'])
+
+    print(repos)
+
+    return json.dumps(repos)
+
+
 @app.route('/attributes', methods=['POST'])
 def attributes():
     attr_type =  request.form.getlist('type')
@@ -63,9 +100,29 @@ def attributes():
 def create_webhook():
     print(request.form)
 
+    for state in docker_states:
+        print(state)
+
+    url = session['url']
+    user = session['user']
+    password = session['pass']
+
+    space = request.form.get('repos')
+
+    # TODO: Add the endpoint for the given UUID to the webhooks for the given repo
+    api_url = "/api/v0/repositories/{}/webhooks".format(space)
+    print(api_url)
+
+    resp = requests.get(url + api_url, auth=HTTPBasicAuth(user, password), verify=False)
+
+    print(resp.json())
+
     return "ok", 200
 
 if __name__ == '__main__':
     print("Starting as main application")
+
+    # TODO: GET THIS OUT OF HERE!
+    app.secret_key = 'Chang3M3aSso0nAsp0ss1bl3'
     app.run(debug=True, port=5002)
 
