@@ -43,6 +43,10 @@ def base_page():
 @app.route('/workspace', methods=['GET', 'POST'])
 def workspace():
     ws_uuid = uuid.uuid4()
+    UUID = db.Workflows(uuid=ws_uuid)
+    db.session.add(UUID)
+    db.session.commit()
+
     if request.method == 'POST':
         print(request.data)
         data = {'name':json.loads(request.data), 'id':str(ws_uuid)}
