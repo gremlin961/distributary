@@ -5,3 +5,4 @@ gunicorn
 psycopg2
 pika
 flask_restplus
+flask_sqlalchemy
