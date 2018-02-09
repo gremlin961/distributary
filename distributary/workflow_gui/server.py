@@ -9,6 +9,8 @@ import json
 from requests.auth import HTTPBasicAuth
 import requests
 from distributary.common.dbaccess import db
+from distributary.db_manager.models.models import Workflows, WorkflowJobs, DockerWorkflow
+
 
 print("Top of server.py")
 
@@ -43,7 +45,7 @@ def base_page():
 @app.route('/workspace', methods=['GET', 'POST'])
 def workspace():
     ws_uuid = uuid.uuid4()
-    UUID = db.Workflows(uuid=ws_uuid)
+    UUID = Workflows(uuid=ws_uuid)
     db.session.add(UUID)
     db.session.commit()
 
