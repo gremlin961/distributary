@@ -15,7 +15,7 @@ class Workflows(db.Model):
     jobs = db.relationship('WorkflowJobs', backref='workflows', lazy=True)
 
     def __repr__(self):
-        return 'Worker: <%r>, Type: <%r>' % self.workflowUUID, self.workflowType
+        return 'Worker: <%r>, Name: <%r>' % self.workflowUUID, self.name
 
 class WorkflowJobs(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
