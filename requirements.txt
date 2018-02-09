@@ -5,4 +5,4 @@ gunicorn
 psycopg2
 pika
 flask_restplus
-flask_sqlalchemy
+flask_sqlalchemy==2.1
