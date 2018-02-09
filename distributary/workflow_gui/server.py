@@ -46,7 +46,7 @@ def workspace():
     workspaces = []
 
     if request.method == 'GET':
-        tbl_workspaces = db.Workflows.query.all()
+        tbl_workspaces = Workflows.query.all()
         for workspace in tbl_workspaces:
             workspaces.append({'name': workspace.name, 'id': workspace.workflowUUID})
 
