@@ -28,7 +28,7 @@ class WorkflowJobs(db.Model):
     }
 
 class DockerWorkflow(WorkflowJobs):
-    id = db.Column(db.Integer, db.ForeignKey('workflowjobs.id'), primary_key=True)
+    id = db.Column(db.Integer, db.ForeignKey('workflowJobs.id'), primary_key=True)
     __mapper_args__ = {'polymorphic_identity': 'user',
                        'inherit_condition': (id == WorkflowJobs.id)}
 
