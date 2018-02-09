@@ -14,7 +14,6 @@ from distributary.db_manager.models.models import Workflows, WorkflowJobs, Docke
 
 print("Top of server.py")
 
-workspaces = []
 docker_states = ['tag_push', 'tag_del', 'man_push', 'man_del', 'sec_comp', 'sec_fail', 'promote_img']
 
 # TODO: GET THIS OUT OF HERE!
@@ -44,16 +43,22 @@ def base_page():
 
 @app.route('/workspace', methods=['GET', 'POST'])
 def workspace():
-    ws_uuid = uuid.uuid4()
-    UUID = Workflows(workflowUUID=ws_uuid, name=json.loads(request.data))
+    workspaces = []
 
-    db.session.add(UUID)
-    db.session.commit()
+    if request.method == 'GET':
+        tbl_workspaces = db.Workflows.query.all()
+        for workspace in tbl_workspaces:
+            workspaces.append({'name': workspace.name, 'id': workspace.workflowUUID})
 
     if request.method == 'POST':
         print(request.data)
-        data = {'name':json.loads(request.data), 'id':str(ws_uuid)}
-        workspaces.append(data)
+        ws_uuid = uuid.uuid4()
+        UUID = Workflows(workflowUUID=ws_uuid, name=json.loads(request.data))
+
+        db.session.add(UUID)
+        db.session.commit()
+
+        workspaces.append({'name':json.loads(request.data), 'id':str(ws_uuid)})
 
     return json.dumps(workspaces)
 
