@@ -1,8 +1,5 @@
 from distributary.common.dbaccess import db
 
-print('Creating Tables')
-print(db.create_all())
-
 class DisUsers(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
@@ -46,3 +43,5 @@ class DockerWorkflow(WorkflowJobs):
         return 'Docker repository <%r>' % self.repository
 
 
+print('Creating Tables')
+db.create_all()
