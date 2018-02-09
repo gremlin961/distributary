@@ -1,4 +1,6 @@
-from distributary.common.worker import db
+from distributary.common.dbaccess import db
+
+db.create_all()
 
 class DisUsers(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -7,3 +9,40 @@ class DisUsers(db.Model):
 
     def __repr__(self):
         return '<User %r>' % self.username
+
+class Workflows(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    workflowUUID = db.Column(db.String(40), unique=True, nullable=False)
+    jobs = db.relationship('WorkflowJobs', backref='workflows', lazy=True)
+
+    def __repr__(self):
+        return 'Worker: <%r>, Type: <%r>' % self.workflowUUID, self.workflowType
+
+class WorkflowJobs(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    type = db.Column(db.String(40))
+    workflow_id = db.Column(db.Integer, db.ForeignKey('workflows.id'), nullable=False)
+
+    __mapper_args__ = {
+        'polymorphic_on':type
+    }
+
+class DockerWorkflow(WorkflowJobs):
+    id = db.Column(db.Integer, db.ForeignKey('workflowjobs.id'), primary_key=True)
+    __mapper_args__ = {'polymorphic_identity': 'user',
+                       'inherit_condition': (id == WorkflowJobs.id)}
+
+    repository = db.Column(db.String(40), nullable=False)
+    tagPush = db.Column(db.Boolean)
+    tagDel = db.Column(db.Boolean)
+    manPush = db.Column(db.Boolean)
+    manDel = db.Column(db.Boolean)
+    secComp = db.Column(db.Boolean)
+    secFail = db.Column(db.Boolean)
+    promoteImg = db.Column(db.Boolean)
+
+
+    def __repr__(self):
+        return 'Docker repository <%r>' % self.repository
+
+
