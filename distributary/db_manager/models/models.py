@@ -11,6 +11,7 @@ class DisUsers(db.Model):
 class Workflows(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     workflowUUID = db.Column(db.String(40), unique=True, nullable=False)
+    name = db.Column(db.String(40), nullable=False)
     jobs = db.relationship('WorkflowJobs', backref='workflows', lazy=True)
 
     def __repr__(self):
