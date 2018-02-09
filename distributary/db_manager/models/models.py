@@ -1,7 +1,7 @@
 from distributary.common.dbaccess import db
 
 class DisUsers(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
 
@@ -9,7 +9,7 @@ class DisUsers(db.Model):
         return '<User %r>' % self.username
 
 class Workflows(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     workflowUUID = db.Column(db.String(40), unique=True, nullable=False)
     jobs = db.relationship('WorkflowJobs', backref='workflows', lazy=True)
 
@@ -17,7 +17,7 @@ class Workflows(db.Model):
         return 'Worker: <%r>, Type: <%r>' % self.workflowUUID, self.workflowType
 
 class WorkflowJobs(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     type = db.Column(db.String(40))
     workflow_id = db.Column(db.Integer, db.ForeignKey('workflows.id'), nullable=False)
 
