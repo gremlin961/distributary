@@ -14,6 +14,9 @@ print("Top of server.py")
 workspaces = []
 docker_states = ['tag_push', 'tag_del', 'man_push', 'man_del', 'sec_comp', 'sec_fail', 'promote_img']
 
+# TODO: GET THIS OUT OF HERE!
+app.secret_key = 'Chang3M3aSso0nAsp0ss1bl3'
+
 
 def nocache(view):
     @wraps(view)
@@ -122,7 +125,5 @@ def create_webhook():
 if __name__ == '__main__':
     print("Starting as main application")
 
-    # TODO: GET THIS OUT OF HERE!
-    app.secret_key = 'Chang3M3aSso0nAsp0ss1bl3'
     app.run(debug=True, port=5002)
 
