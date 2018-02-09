@@ -1,5 +1,6 @@
 from distributary.common.dbaccess import db
 
+print('Creating Tables')
 db.create_all()
 
 class DisUsers(db.Model):
