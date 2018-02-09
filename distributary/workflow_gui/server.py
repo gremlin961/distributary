@@ -45,10 +45,9 @@ def base_page():
 def workspace():
     workspaces = []
 
-    if request.method == 'GET':
-        tbl_workspaces = Workflows.query.all()
-        for workspace in tbl_workspaces:
-            workspaces.append({'name': workspace.name, 'id': workspace.workflowUUID})
+    tbl_workspaces = Workflows.query.all()
+    for workspace in tbl_workspaces:
+        workspaces.append({'name': workspace.name, 'id': workspace.workflowUUID})
 
     if request.method == 'POST':
         print(request.data)
