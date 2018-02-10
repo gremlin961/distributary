@@ -67,15 +67,10 @@ def components():
     components = []
 
     data = json.loads(request.data)
-    comp_uuid = data['uuid']
 
     workflow = Workflows.query.filter_by(workflowUUID=data['uuid']).first()
     tbl_components = workflow.jobs
     print(tbl_components)
-
-    for component in tbl_components:
-        components.append({'name': component.type})
-        print (component)
 
     if request.method == 'POST':
         print(data)
@@ -87,7 +82,11 @@ def components():
         db.session.add(component)
         db.session.commit()
 
-    components.append({'component':data['component'], 'id':str(comp_uuid)})
+        components.append({'component':data['component'], 'job_id':str(component.id)})
+    else:
+        for component in tbl_components:
+            components.append({'component': component.type, 'job_id': str(component.id)})
+            print(component)
 
     return json.dumps(components)
 
