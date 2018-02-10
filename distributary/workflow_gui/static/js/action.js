@@ -24,17 +24,17 @@ $(document).ready(function () {
     $('#attributes').addClass('hidden');
     hideAllAttributes();
 
-    // store the workflows in the session cache to retain across
-    // refreshes - will be replaced by server side code  [SERVER]
-    tmp = sessionStorage.getItem("savedWorkflows")
-
-    if(tmp != null) {
-        // convert object to string to save in session
-        workflows = JSON.parse(tmp);
-        workflows.forEach(function(element){
-            AddWorkflowToGUI(element);
-            });
-    }
+//    // store the workflows in the session cache to retain across
+//    // refreshes - will be replaced by server side code  [SERVER]
+//    tmp = sessionStorage.getItem("savedWorkflows")
+//
+//    if(tmp != null) {
+//        // convert object to string to save in session
+//        workflows = JSON.parse(tmp);
+//        workflows.forEach(function(element){
+//            AddWorkflowToGUI(element);
+//            });
+//    }
 
     GetWorkflows();
 })
@@ -96,11 +96,19 @@ function sendComponentToServer(componentType, uuid)  {
             console.log(results);
             if (results[0]['direction']=='from') {
                 $('#workButtonInput').attr('id', results[0]['job_id']);
+                updateComponents(componentType)
             }
        }
     };
     action.open('POST', '/components');
     action.send(JSON.stringify({ component: componentType, uuid: uuid}));
+}
+
+function updateComponents(componentType) {
+    /* TODO: make this dynamic */
+    if(componentType == 'docker') {
+        $('#modalPlaceholder').load('/dockerlogin?job=' + $('.inputComponent > a').attr('id'));
+    }
 }
 
 function openAttributes(type) {
@@ -149,11 +157,6 @@ function AddInputComponent(componentType, exists) {
     if(!exists) {
         sendComponentToServer(componentType, $('.list-group-item.active').attr('id'))
     };
-
-    /* TODO: make this dynamic */
-    if(componentType == 'docker') {
-        $('#modalPlaceholder').load('/dockerlogin?job=' + $('.inputComponent > a').attr('id'));
-    }
 }
 
 function clearInputSpace() {
