@@ -169,30 +169,45 @@ function createInputHeader() {
 
 function createInputSection() {
     var input_space = document.getElementById('wsInput');
+    var action = new XMLHttpRequest();
 
-    /*  Button as anchor type */
-    var input_section = document.createElement("div");
-    input_section.className = "dropdown inputButtonSection";
-    var input_button = document.createElement("a");
-    input_button.alt = "Add input item."
-    input_button.href = '#';
-    input_button.className = "dropdown-toggle";
-    input_button.setAttribute("data-toggle", "dropdown");
-    input_button.innerHTML = "<img class='inputButton icon' src='static/images/add.svg'></img>";
+    action.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            console.log(this.responseText);
+            var results = JSON.parse(this.responseText);
+            console.log(results);
+            if (results.length > 0) {
+                AddInputComponent('docker');
+                $('#workButtonInput').attr('id', results[0]['job_id']);
+            }
+            else {
+                /*  Button as anchor type */
+                var input_section = document.createElement("div");
+                input_section.className = "dropdown inputButtonSection";
+                var input_button = document.createElement("a");
+                input_button.alt = "Add input item."
+                input_button.href = '#';
+                input_button.className = "dropdown-toggle";
+                input_button.setAttribute("data-toggle", "dropdown");
+                input_button.innerHTML = "<img class='inputButton icon' src='static/images/add.svg'></img>";
 
-    var input_buttion_list = document.createElement("ul");
-    input_buttion_list.className = "dropdown-menu";
-    input_buttion_list.innerHTML = "<li><a href='#' id='dockerItem'><img class='dockerImage icon' src='static/images/docker-official.svg'></img></a></li>";
+                var input_buttion_list = document.createElement("ul");
+                input_buttion_list.className = "dropdown-menu";
+                input_buttion_list.innerHTML = "<li><a href='#' id='dockerItem'><img class='dockerImage icon' src='static/images/docker-official.svg'></img></a></li>";
 
-    input_section.appendChild(input_buttion_list);
-    input_section.appendChild(input_button);
-    input_space.appendChild(input_section);
+                input_section.appendChild(input_buttion_list);
+                input_section.appendChild(input_button);
+                input_space.appendChild(input_section);
 
-    $('#dockerItem').click(function(e){
-        e.preventDefault();
-        AddInputComponent('docker');
-    });
-
+                $('#dockerItem').click(function(e){
+                    e.preventDefault();
+                    AddInputComponent('docker');
+                });
+            }
+       }
+    };
+    action.open('GET', '/components');
+    action.send();
 }
 
 function clearAddComponentButton() {
