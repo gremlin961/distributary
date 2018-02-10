@@ -65,8 +65,13 @@ def workspace():
 @app.route('/components', methods=['GET', 'POST'])
 def components():
     components = []
+    data = {}
 
-    data = json.loads(request.data)
+    if request.method == 'POST':
+        data = json.loads(request.data)
+
+    if request.method == 'GET':
+        data = {'uuid':request.args.get('uuid')}
 
     workflow = Workflows.query.filter_by(workflowUUID=data['uuid']).first()
 
