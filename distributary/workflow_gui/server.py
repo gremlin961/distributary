@@ -123,12 +123,20 @@ def docker_repos():
     user = request.form.get('user')
     password = request.form.get('pwd')
     uuid = request.form.get('uuid')
+    job = request.form.get('job')
+
+    docker_job = WorkflowJobs.query.filter_by(id=job).first()
 
     # TODO: It's the Hotel California, you check in but you don't check out
     session['user'] = user
     session['pass'] = password
     session['url'] = url
     session['uuid'] = uuid
+
+    if docker_job != None:
+        docker_job.url = url
+        db.session.add(docker_job)
+        db.session.commit()
 
     payload = {'pageSize': '50'}
     resp = requests.get(url + '/api/v0/repositories', params=payload, auth=HTTPBasicAuth(user, password), verify=False)
