@@ -71,6 +71,7 @@ def components():
         data = json.loads(request.data)
 
     if request.method == 'GET':
+        print(request.args.get('uuid'))
         data = {'uuid':request.args.get('uuid')}
 
     workflow = Workflows.query.filter_by(workflowUUID=data['uuid']).first()

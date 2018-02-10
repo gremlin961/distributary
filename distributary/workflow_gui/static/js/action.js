@@ -206,7 +206,8 @@ function createInputSection() {
             }
        }
     };
-    action.open('GET', '/components?uuid='+$('.list-group-item.active').attr('id'));
+    uuid = $('.list-group-item.active').attr('id');
+    action.open('GET', '/components?uuid='+uuid);
     action.send();
 }
 
