@@ -41,7 +41,7 @@ $(document).ready(function () {
 
 
 // Create the center workspace area
-function loadWorkflow(name, id) {
+function loadWorkflow(name, uuid) {
     workspace = document.getElementById('workspace');
 
     var h = document.getElementById('headerPlaceholder');
@@ -63,12 +63,12 @@ function loadWorkflow(name, id) {
     // Prep left side of workspace
     clearInputSpace();
     createInputHeader();
-    createInputSection(id);
+    createInputSection(uuid);
 
     // Prep right side of workspace
     clearOutputSpace();
     createOutputHeader();
-    createOutputSection(id);
+    createOutputSection(uuid);
 
     $('#workspace').removeClass('hidden');
 }
@@ -96,7 +96,6 @@ function sendComponentToServer(componentType, uuid)  {
             console.log(results);
             if (results[0]['direction']=='from') {
                 $('#workButtonInput').attr('id', results[0]['job_id']);
-                updateComponents(componentType)
             }
        }
     };
@@ -154,9 +153,9 @@ function AddInputComponent(componentType, exists) {
     work_item.appendChild(work_button);
     input_space.appendChild(work_item);
 
-    if(!exists) {
-        sendComponentToServer(componentType, $('.list-group-item.active').attr('id'))
-    };
+//    if(!exists) {
+//        sendComponentToServer(componentType, $('.list-group-item.active').attr('id'))
+//    };
 }
 
 function clearInputSpace() {
@@ -186,11 +185,13 @@ function createInputSection(id) {
             var results = JSON.parse(this.responseText);
             console.log(results);
             if (results.length > 0) {
+                // TODO: Remove Docker specifics
                 AddInputComponent('docker', true);
                 $('#workButtonInput').attr('id', results[0]['job_id']);
+                updateComponents('docker');
             }
             else {
-                /*  Button as anchor type */
+                // New entry
                 var input_section = document.createElement("div");
                 input_section.className = "dropdown inputButtonSection";
                 var input_button = document.createElement("a");
@@ -208,9 +209,12 @@ function createInputSection(id) {
                 input_section.appendChild(input_button);
                 input_space.appendChild(input_section);
 
+                // TODO: Remove Docker specifics
                 $('#dockerItem').click(function(e){
                     e.preventDefault();
                     AddInputComponent('docker', false);
+                    sendComponentToServer(componentType, $('.list-group-item.active').attr('id'))
+                    updateComponents('docker');
                 });
             }
        }
@@ -264,7 +268,6 @@ function AddOutputComponent(componentType) {
     work_item.appendChild(work_button);
     output_space.appendChild(work_item);
 
-    sendComponentToServer(componentType, $('.list-group-item.active').attr('id'))
     createOutputSection();
 
 }
