@@ -41,7 +41,7 @@
                 success: function(text) {
                     $('#attributes').load('/attributes?job='+job_id, function()
                     {
-                        selected = $('#repos).attr('value');
+                        selected = $('#repos').attr('value');
                         data = JSON.parse(text);
                         data.forEach(function(repo) {
                             if (repo == selected) {
