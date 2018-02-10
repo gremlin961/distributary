@@ -42,8 +42,9 @@
                     data.forEach(function(repo) {
                         $('#repos').append('<option value="'+repo+'">'+repo+'</option>');
                     });
-                }
-            }).then(openAttributes('docker'););
+                    openAttributes('docker');
+                };
+            });
             console.log(response);
         });
     </script>
