@@ -111,7 +111,14 @@ def components():
 
 @app.route('/dockerlogin', methods=['GET'])
 def docker_login():
-    return render_template('dtr_login.html')
+    job = request.args.get('job')
+    url = ""
+
+    docker_job = WorkflowJobs.query.filter_by(id=job).first()
+    if docker_job != None:
+        url = docker_job.url
+
+    return render_template('dtr_login.html', saved_URL=url)
 
 
 @app.route('/dockerrepos', methods=['POST'])
