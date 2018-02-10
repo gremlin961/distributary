@@ -199,7 +199,7 @@ def create_webhook():
 
 @app.route('/post/<uuid>', methods=['POST'])
 def hook_up(uuid):
-    print('Got webhook call for ', uuid)
+    print('Got webhook call for ', uuid, request.get_json())
 
     return 'ok', 200
 
@@ -211,7 +211,7 @@ def do_docker_job(request, docker_job):
     body['endpoint'] = 'https://stark-river-28638.herokuapp.com/post/'+request.form.get('uuid')
     body['key'] = docker_job.repository
 
-    headers = {'Content-Type':'application/json'}
+    headers = {'Content-Type':'application/json', 'Accept':'application/json'}
     url = session['url']
     user = session['user']
     password = session['pass']
