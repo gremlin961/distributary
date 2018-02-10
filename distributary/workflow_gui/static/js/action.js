@@ -12,6 +12,7 @@ $(document).ready(function () {
         console.log('Clear active state');
         $(".list-group li").removeClass('active');
         $(this).addClass('active');
+        hideAllAttributes();
     });
 
     // workflow creation modal, when hiding, clear text entry field
@@ -21,21 +22,7 @@ $(document).ready(function () {
         modal.find('.modal-body input').val("");
     });
 
-    //$('#attributes').addClass('hidden');
     hideAllAttributes();
-
-//    // store the workflows in the session cache to retain across
-//    // refreshes - will be replaced by server side code  [SERVER]
-//    tmp = sessionStorage.getItem("savedWorkflows")
-//
-//    if(tmp != null) {
-//        // convert object to string to save in session
-//        workflows = JSON.parse(tmp);
-//        workflows.forEach(function(element){
-//            AddWorkflowToGUI(element);
-//            });
-//    }
-
     GetWorkflows();
 
 })
