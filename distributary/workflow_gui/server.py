@@ -114,7 +114,7 @@ def docker_login():
     job = request.args.get('job')
     url = ""
 
-    docker_job = WorkflowJobs.query.filter_by(id=job).first()
+    docker_job = WorkflowJobs.query.filter_by(id=int(job)).first()
     if docker_job != None:
         url = docker_job.dtrUrl
 
@@ -132,7 +132,7 @@ def docker_repos():
     uuid = request.form.get('uuid')
     job = request.form.get('job')
 
-    docker_job = WorkflowJobs.query.filter_by(id=job).first()
+    docker_job = WorkflowJobs.query.filter_by(id=int(job)).first()
 
     # TODO: It's the Hotel California, you check in but you don't check out
     session['user'] = user
