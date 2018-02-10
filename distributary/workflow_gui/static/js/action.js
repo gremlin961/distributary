@@ -227,7 +227,7 @@ function AddOutputComponent(componentType) {
         work_button.innerHTML = "<img class='slackImage icon' src='static/images/slack-1.svg'></img>";
         work_item.onclick = function() {
             hideAllAttributes();
-            openAttributes(componentType);
+            //openAttributes(componentType);
             /* $('.slackAttributes').removeClass('hidden'); */
         }
     }
@@ -238,7 +238,7 @@ function AddOutputComponent(componentType) {
         work_button.innerHTML = "<img class='sparkImage icon' src='static/images/spark-logo.svg'></img>";
         work_item.onclick = function() {
             hideAllAttributes();
-            openAttributes(componentType);
+            //openAttributes(componentType);
             /* $('.sparkAttributes').removeClass('hidden'); */
         }
     }
