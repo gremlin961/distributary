@@ -81,13 +81,13 @@ def components():
         print(data)
         component = WorkflowJobs(workflow_id=workflow.id)
 
-        if data['type'] == 'docker':
+        if data['component'] == 'docker':
             component.type = 'docker_workflow'
 
         db.session.add(component)
         db.session.commit()
 
-    components.append({'type':data['type'], 'id':str(comp_uuid)})
+    components.append({'component':data['component'], 'id':str(comp_uuid)})
 
     return json.dumps(components)
 
