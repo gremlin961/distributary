@@ -112,13 +112,17 @@ function updateComponents(componentType) {
     }
 }
 
-function openAttributes(type) {
+function showAttributes() {
+    $('#attributes').removeClass('hidden');
+}
+
+function getAttributes(type) {
     //alert('Attributes!');
     $('#attributes').load('/attributes', {'type': type}, function()
         {
             $('.pluginAttributes').removeClass('hidden');
         });
-    $('#attributes').removeClass('hidden');
+    //$('#attributes').removeClass('hidden');
 }
 
 // User has selected a 'Connect from' component
@@ -279,6 +283,7 @@ function hideAllAttributes() {
     while (attributes.firstChild) {
         attributes.removeChild(attributes.firstChild);
     }
+    attributes.addClass('hidden');
 }
 
 function clearOutputSpace() {
