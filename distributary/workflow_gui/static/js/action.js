@@ -97,6 +97,7 @@ function sendComponentToServer(componentType, uuid)  {
             if (results[0]['direction']=='from') {
                 $('#workButtonInput').attr('id', results[0]['job_id']);
             }
+            updateComponents(componentType);
        }
     };
     action.open('POST', '/components');
@@ -214,8 +215,7 @@ function createInputSection(id) {
                     e.preventDefault();
                     var componentType = 'docker';
                     AddInputComponent(componentType, false);
-                    sendComponentToServer(componentType, $('.list-group-item.active').attr('id'))
-                    updateComponents(componentType);
+                    sendComponentToServer(componentType, $('.list-group-item.active').attr('id'));
                 });
             }
        }
