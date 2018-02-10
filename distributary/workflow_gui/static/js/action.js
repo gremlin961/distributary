@@ -212,9 +212,10 @@ function createInputSection(id) {
                 // TODO: Remove Docker specifics
                 $('#dockerItem').click(function(e){
                     e.preventDefault();
-                    AddInputComponent('docker', false);
+                    var componentType = 'docker';
+                    AddInputComponent(componentType, false);
                     sendComponentToServer(componentType, $('.list-group-item.active').attr('id'))
-                    updateComponents('docker');
+                    updateComponents(componentType);
                 });
             }
        }
