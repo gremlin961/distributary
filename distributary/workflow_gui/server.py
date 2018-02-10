@@ -69,7 +69,8 @@ def components():
     data = json.loads(request.data)
     comp_uuid = data['uuid']
 
-    tbl_components = Workflows.query.filter_by(workflowUUID= data['uuid']).first().jobs
+    workflow = Workflows.query.filter_by(workflowUUID=data['uuid']).first()
+    tbl_components = workflow.jobs
     print(tbl_components)
 
     for component in tbl_components:
@@ -78,7 +79,7 @@ def components():
 
     if request.method == 'POST':
         print(data)
-        component = WorkflowJobs(workflow_id=comp_uuid)
+        component = WorkflowJobs(workflow_id=workflow.id)
 
         if data['type'] == 'docker':
             component.type = 'docker_workflow'
