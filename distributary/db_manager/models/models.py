@@ -23,12 +23,13 @@ class WorkflowJobs(db.Model):
     workflow_id = db.Column(db.Integer, db.ForeignKey('workflows.id'), nullable=False)
 
     __mapper_args__ = {
+        'polymorphic_identity':'workflow_jobs',
         'polymorphic_on':type
     }
 
 class DockerWorkflow(WorkflowJobs):
     id = db.Column(db.Integer, db.ForeignKey('workflow_jobs.id'), primary_key=True)
-    __mapper_args__ = {'polymorphic_identity': 'user' }
+    __mapper_args__ = {'polymorphic_identity': 'docker_workflow' }
 
     repository = db.Column(db.String(40), nullable=False)
     tagPush = db.Column(db.Boolean)

@@ -73,6 +73,33 @@ function loadWorkflow(name) {
     $('#workspace').removeClass('hidden');
 }
 
+function getComponentsFromServer() {
+    var action = new XMLHttpRequest();
+
+    action.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            console.log(this.responseText);
+            var results = JSON.parse(this.responseText);
+            console.log(results);
+       }
+    };
+    action.open('GET', '/components');
+}
+
+function sendComponentToServer(componentType, uuid)  {
+    var action = new XMLHttpRequest();
+
+    action.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            console.log(this.responseText);
+            var results = JSON.parse(this.responseText);
+            console.log(results);
+       }
+    };
+    action.open('POST', '/components');
+    action.send(JSON.stringify({ component: componentType, uuid: uuid}));
+}
+
 function openAttributes(type) {
     //alert('Attributes!');
     $('#attributes').load('/attributes', {'type': type}, function()
@@ -116,6 +143,8 @@ function AddInputComponent(componentType) {
 
     work_item.appendChild(work_button);
     input_space.appendChild(work_item);
+
+    sendComponentToServer(componentType, $('.list-group-item.active').attr('id'))
 }
 
 function clearInputSpace() {
@@ -208,6 +237,7 @@ function AddOutputComponent(componentType) {
     work_item.appendChild(work_button);
     output_space.appendChild(work_item);
 
+    sendComponentToServer(componentType, $('.list-group-item.active').attr('id'))
     createOutputSection();
 
 }

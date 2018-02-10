@@ -62,6 +62,33 @@ def workspace():
     return json.dumps(workspaces)
 
 
+@app.route('/components', methods=['GET', 'POST'])
+def components():
+    components = []
+
+    data = json.loads(request.data)
+    comp_uuid = data['uuid']
+
+    tbl_components = WorkflowJobs.query(data['uuid']).all()
+    for component in tbl_components:
+        components.append({'name': component.type})
+        print (component)
+
+    if request.method == 'POST':
+        print(data)
+        component = WorkflowJobs(workflow_id=comp_uuid)
+
+        if data['type'] == 'docker':
+            component.type = 'docker_workflow'
+
+        db.session.add(component)
+        db.session.commit()
+
+    components.append({'type':data['type'], 'id':str(comp_uuid)})
+
+    return json.dumps(components)
+
+
 @app.route('/dockerlogin', methods=['GET'])
 def docker_login():
     return render_template('dtr_login.html')
