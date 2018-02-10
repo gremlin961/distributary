@@ -140,7 +140,6 @@ function AddInputComponent(componentType, exists) {
         /* TODO: take Docker specifics out of here */
         $('#newDTRWorkspace').modal('show');
         hideAllAttributes();
-        openAttributes(componentType);
     }
 
     /* TODO: make this dynamic */
