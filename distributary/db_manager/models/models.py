@@ -21,6 +21,7 @@ class WorkflowJobs(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     type = db.Column(db.String(40))
     workflow_id = db.Column(db.Integer, db.ForeignKey('workflows.id'), nullable=False)
+    direction =  db.Column(db.String(10), nullable=False)
 
     __mapper_args__ = {
         'polymorphic_identity':'workflow_jobs',
