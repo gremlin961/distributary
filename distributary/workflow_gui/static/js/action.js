@@ -112,19 +112,6 @@ function updateComponents(componentType) {
     }
 }
 
-function showAttributes() {
-    $('#attributes').removeClass('hidden');
-}
-
-function getAttributes(type) {
-    //alert('Attributes!');
-    $('#attributes').load('/attributes', {'type': type}, function()
-        {
-            $('.pluginAttributes').removeClass('hidden');
-        });
-    //$('#attributes').removeClass('hidden');
-}
-
 // User has selected a 'Connect from' component
 function AddInputComponent(componentType, exists) {
     //alert('Adding new input component.')

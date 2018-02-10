@@ -38,12 +38,15 @@
                 url: "{{ url_for('docker_repos') }}",
                 data: formData + '&uuid=' + $('.list-group-item.active').attr('id') + '&job=' + $('.inputComponent > a').attr('id'),
                 success: function(text) {
-                    getAttributes('docker');
-                    data = JSON.parse(text);
-                    data.forEach(function(repo) {
-                        $('#repos').append('<option value="'+repo+'">'+repo+'</option>');
+                    $('#attributes').load('/attributes', {'type': 'docker'}, function()
+                    {
+                        data = JSON.parse(text);
+                        data.forEach(function(repo) {
+                            $('#repos').append('<option value="'+repo+'">'+repo+'</option>');
+                        });
+                        $('.pluginAttributes').removeClass('hidden');
+                        $('#attributes').removeClass('hidden');
                     });
-                    showAttributes();
                 }
             });
             console.log(response);
