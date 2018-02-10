@@ -14,9 +14,14 @@ from sqlalchemy import inspect
 
 print("Top of server.py")
 
-docker_states = [('tag_push','tagPush'), ('tag_del','tagDel'), ('man_push','manPush'),
-                 ('man_del', 'manDel'), ('sec_comp','secComp'), ('sec_fail','secFail'),
-                 ('promote_img','promoteImg')]
+docker_states = [('tag_push','tagPush', 'TAG_PUSH'),
+                 ('tag_del','tagDel', 'TAG_DELETE'),
+                 ('man_push','manPush', 'MANIFEST_PUSH'),
+                 ('man_del', 'manDel', 'MANIFEST_DELETE'),
+                 ('sec_comp','secComp', 'SCAN_COMPLETED'),
+                 ('sec_fail','secFail', 'SCAN_FAILED'),
+                 ('promote_img','promoteImg', 'PROMOTION')]
+
 
 # TODO: GET THIS OUT OF HERE!
 app.secret_key = 'Chang3M3aSso0nAsp0ss1bl3'
@@ -192,31 +197,39 @@ def create_webhook():
     return "ok", 200
 
 
+@app.route('/post/<uuid>', methods=['POST'])
+def hook_up(uuid):
+    print('Got webhook call for ', uuid)
+
+    return 'ok', 200
+
+
 def do_docker_job(request, docker_job):
     docker_job.repository = request.form.get('repos')
 
-    for state in docker_states:
-        if request.form.get(state[0]) != None:
-            print("Trying to set: ",state)
-            setattr(docker_job, state[1], True)
-
-    db.session.add(docker_job)
-    db.session.commit()
+    body = {}
+    body['endpoint'] = 'https://stark-river-28638.herokuapp.com/post/'+request.form.get('uuid')
+    body['key'] = docker_job.repository
 
     url = session['url']
     user = session['user']
     password = session['pass']
 
-    space = request.form.get('repos')
+    for state in docker_states:
+        if request.form.get(state[0]) != None:
+            print("Trying to set: ",state)
+            setattr(docker_job, state[1], True)
+            body['type']=state[2]
 
-    # TODO: Add the endpoint for the given UUID to the webhooks for the given repo
-    api_url = "/api/v0/repositories/{}/webhooks".format(space)
-    print(api_url)
+            # TODO: Add the endpoint for the given UUID to the webhooks for the given repo
+            api_url = "/api/v0/webhooks/"
+            print(api_url)
 
-    resp = requests.get(url + api_url, auth=HTTPBasicAuth(user, password), verify=False)
+            resp = requests.post(url + api_url, auth=HTTPBasicAuth(user, password), data=body, verify=False)
+            print(body, resp.json())
 
-    print(resp.json())
-
+    db.session.add(docker_job)
+    db.session.commit()
 
 if __name__ == '__main__':
     print("Starting as main application")
