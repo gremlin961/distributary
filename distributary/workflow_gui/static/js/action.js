@@ -37,6 +37,24 @@ $(document).ready(function () {
 //    }
 
     GetWorkflows();
+
+        $('#DTRlogin').click(function(event) {
+            event.preventDefault();
+            var formData = $('#dockerloginForm').serialize();
+            var response = $.ajax({
+                method: 'POST',
+                url: "{{ url_for('docker_repos') }}",
+                data: formData + '&uuid=' + $('.list-group-item.active').attr('id') + '&job=' + $('.inputComponent > a').attr('id'),
+                success: function(text) {
+                    data = JSON.parse(text);
+                    data.forEach(function(repo) {
+                        $('#repos').append('<option value="'+repo+'">'+repo+'</option>');
+                    });
+                    openAttributes('docker');
+                }
+            });
+            console.log(response);
+        });
 })
 
 
