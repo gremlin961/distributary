@@ -113,7 +113,7 @@ function openAttributes(type) {
 }
 
 // User has selected a 'Connect from' component
-function AddInputComponent(componentType) {
+function AddInputComponent(componentType, exists) {
     //alert('Adding new input component.')
     clearInputSpace();
     createInputHeader();
@@ -147,7 +147,9 @@ function AddInputComponent(componentType) {
     work_item.appendChild(work_button);
     input_space.appendChild(work_item);
 
-    sendComponentToServer(componentType, $('.list-group-item.active').attr('id'))
+    if(!exists) {
+        sendComponentToServer(componentType, $('.list-group-item.active').attr('id'))
+    };
 }
 
 function clearInputSpace() {
@@ -177,7 +179,7 @@ function createInputSection(id) {
             var results = JSON.parse(this.responseText);
             console.log(results);
             if (results.length > 0) {
-                AddInputComponent('docker');
+                AddInputComponent('docker', true);
                 $('#workButtonInput').attr('id', results[0]['job_id']);
             }
             else {
@@ -201,7 +203,7 @@ function createInputSection(id) {
 
                 $('#dockerItem').click(function(e){
                     e.preventDefault();
-                    AddInputComponent('docker');
+                    AddInputComponent('docker', false);
                 });
             }
        }
