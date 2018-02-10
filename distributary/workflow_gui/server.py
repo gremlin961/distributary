@@ -94,7 +94,11 @@ def components():
             pass
 
     else:
-        tbl_components = workflow.jobs
+        if workflow.jobs != None:
+            tbl_components = workflow.jobs
+        else:
+            tbl_components = []
+
         print(tbl_components)
 
         for component in tbl_components:
