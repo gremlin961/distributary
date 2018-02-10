@@ -166,7 +166,7 @@ def attributes():
 
     if(job.type=='docker_workflow'):
         template='dtr.html'
-        return render_template(template, job)
+        return render_template(template, job=job)
     if(job.type=='slack_workflow'):
         template='slack.html'
         return render_template(template)
