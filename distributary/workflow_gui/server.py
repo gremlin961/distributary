@@ -226,7 +226,7 @@ def do_docker_job(request, docker_job):
             api_url = "/api/v0/webhooks/"
             print(api_url)
 
-            resp = requests.post(url + api_url, headers=headers, auth=HTTPBasicAuth(user, password), data=body, verify=False)
+            resp = requests.post(url + api_url, headers=headers, auth=HTTPBasicAuth(user, password), data=JSON.dumps(body), verify=False)
             print(body, resp.text)
 
     db.session.add(docker_job)
