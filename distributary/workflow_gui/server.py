@@ -193,16 +193,12 @@ def create_webhook():
 
 
 def do_docker_job(request, docker_job):
-
-
     docker_job.repository = request.form.get('repos')
-
-    print(dir(docker_job))
 
     for state in docker_states:
         if request.form.get(state[0]) != None:
             print("Trying to set: ",state)
-            docker_job[state[1]] = True
+            setattr(docker_job, state[1], True)
 
     db.session.add(docker_job)
     db.session.commit()
