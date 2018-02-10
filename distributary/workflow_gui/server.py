@@ -159,16 +159,20 @@ def docker_repos():
 
 @app.route('/attributes', methods=['POST'])
 def attributes():
-    attr_type =  request.form.getlist('type')
+    job_id =  request.form.getlist('type')[0]
     template = 'attr_404.html';
 
-    # TODO: Parse the type to get the html fragment to use
-    if(attr_type[0]=='docker'):
+    job = WorkflowJobs.query.filter_by(id=int(job_id)).first()
+
+    if(job.type=='docker_workflow'):
         template='dtr.html'
-    if(attr_type[0]=='slack'):
+        return render_template(template, job)
+    if(job.type=='slack_workflow'):
         template='slack.html'
-    if(attr_type[0]=='spark'):
+        return render_template(template)
+    if(job.type=='spark_workflow'):
         template='spark.html'
+        return render_template(template)
 
     return render_template(template)
 
@@ -177,8 +181,25 @@ def attributes():
 def create_webhook():
     print(request.form)
 
+    job = request.form.get('job')
+
+    if job.type == 'docker_workflow':
+        do_docker_job(request)
+
+    return "ok", 200
+
+
+def do_docker_job(request):
+    docker_job = WorkflowJobs.query.filter_by(id=int(job)).first()
+
+    docker_job.repository = request.form.get('repos')
+
     for state in docker_states:
-        print(state)
+        if request.form.get(state) != None:
+            docker_job[state] = True
+
+    db.session.add(docker_job)
+    db.session.commit()
 
     url = session['url']
     user = session['user']
@@ -194,7 +215,6 @@ def create_webhook():
 
     print(resp.json())
 
-    return "ok", 200
 
 if __name__ == '__main__':
     print("Starting as main application")

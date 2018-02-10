@@ -6,11 +6,11 @@
             <p>Select the repository you want notifications from.</p>
             <div class="form-group">
                 <label for="repos">Repositories:</label>
-                <select type="text" class="form-control" name="repos" id="repos" required></select>
+                <select type="text" class="form-control" name="repos" id="repos" value="{{ job.repository }}"required></select>
             </div>
             <p>Select the items you wish to be notified on.</p>
             <div class="checkbox">
-              <label><input type="checkbox" name="tag_push" value="1">Tag pushed to repository.</label>
+              <label><input type="checkbox" name="tag_push" value="1" {% if job.tag_push==True %}checked{% else %}{% endif %}>Tag pushed to repository.</label>
             </div>
             <div class="checkbox">
               <label><input type="checkbox" name="tag_del" value="1">Tag deleted from repository</label>
