@@ -1,4 +1,10 @@
 <div class="pluginAttributes hidden">
+    <div class="alert alert-success alert-dismissible fade hide" role="alert" id="successAlert">
+        <strong>Success!</strong> DTR webhooks created.
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
     <h2><b>Directions</b></h2>
     <div>
         <!-- <form action="{{ url_for('create_webhook') }}" method="post"> -->
@@ -41,7 +47,8 @@
         $.ajax({
             method: 'POST',
             url: "{{ url_for('create_webhook') }}",
-            data: formData + '&uuid=' + $('.list-group-item.active').attr('id') + '&job=' + $('.inputComponent > a').attr('id')
+            data: formData + '&uuid=' + $('.list-group-item.active').attr('id') + '&job=' + $('.inputComponent > a').attr('id'),
+            success: function() { $('#successAlert').show(); }
         });
     });
     </script>
