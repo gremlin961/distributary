@@ -116,7 +116,7 @@ def docker_login():
 
     docker_job = WorkflowJobs.query.filter_by(id=job).first()
     if docker_job != None:
-        url = docker_job.url
+        url = docker_job.dtrUrl
 
     return render_template('dtr_login.html', saved_URL=url)
 
@@ -141,7 +141,7 @@ def docker_repos():
     session['uuid'] = uuid
 
     if docker_job != None:
-        docker_job.url = url
+        docker_job.dtrUrl = url
         db.session.add(docker_job)
         db.session.commit()
 
