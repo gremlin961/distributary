@@ -78,6 +78,7 @@ def components():
 
         if data['component'] == 'docker':
             component.type = 'docker_workflow'
+            component.repository=' '
 
         db.session.add(component)
         db.session.commit()
