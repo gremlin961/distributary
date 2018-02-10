@@ -14,7 +14,9 @@ from sqlalchemy import inspect
 
 print("Top of server.py")
 
-docker_states = ['tag_push', 'tag_del', 'man_push', 'man_del', 'sec_comp', 'sec_fail', 'promote_img']
+docker_states = [('tag_push','tagPush'), ('tag_del','tagDel'), ('man_push','manPush'),
+                 ('man_del', 'manDel'), ('sec_comp','secComp'), ('sec_fail','secFail'),
+                 ('promote_img','promoteImg')]
 
 # TODO: GET THIS OUT OF HERE!
 app.secret_key = 'Chang3M3aSso0nAsp0ss1bl3'
@@ -198,9 +200,9 @@ def do_docker_job(request, docker_job):
     print(dir(docker_job))
 
     for state in docker_states:
-        if request.form.get(state) != None:
+        if request.form.get(state[0]) != None:
             print("Trying to set: ",state)
-            #docker_job.c[state] = True
+            docker_job[state[1]] = True
 
     db.session.add(docker_job)
     db.session.commit()
