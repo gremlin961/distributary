@@ -195,14 +195,12 @@ def do_docker_job(request, docker_job):
 
     docker_job.repository = request.form.get('repos')
 
-    for key, val in docker_job.items():
-        print(key, val)
+    dir(docker_job)
 
     for state in docker_states:
         if request.form.get(state) != None:
             print("Trying to set: ",state)
-            print("Request has: ", request.form.get(state))
-            setattr(docker_job, state, True)
+            docker_job.c[state] = True
 
     db.session.add(docker_job)
     db.session.commit()
