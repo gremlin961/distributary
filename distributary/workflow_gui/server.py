@@ -76,17 +76,24 @@ def components():
         if data['component'] == 'docker':
             component = DockerWorkflow(workflow_id=workflow.id)
             component.type = 'docker_workflow'
-
+            component.direction = 'from'
             db.session.add(component)
             db.session.commit()
 
             components.append({'component':data['component'], 'job_id':str(component.id)})
+
+        if data['component'] == 'slack':
+            pass
+
+        if data['component'] == 'spark':
+            pass
+
     else:
         tbl_components = workflow.jobs
         print(tbl_components)
 
         for component in tbl_components:
-            components.append({'component': component.type, 'job_id': str(component.id)})
+            components.append({'component': component.type, 'job_id': str(component.id), 'direction': component.direction})
             print(component)
 
     return json.dumps(components)
