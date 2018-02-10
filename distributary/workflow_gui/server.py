@@ -80,7 +80,7 @@ def components():
             db.session.add(component)
             db.session.commit()
 
-            components.append({'component':data['component'], 'job_id':str(component.id)})
+            components.append({'component':data['component'], 'job_id':str(component.id), 'direction': component.direction})
 
         if data['component'] == 'slack':
             pass
