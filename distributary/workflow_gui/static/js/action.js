@@ -41,7 +41,7 @@ $(document).ready(function () {
 
 
 // Create the center workspace area
-function loadWorkflow(name) {
+function loadWorkflow(name, id) {
     workspace = document.getElementById('workspace');
 
     var h = document.getElementById('headerPlaceholder');
@@ -63,12 +63,12 @@ function loadWorkflow(name) {
     // Prep left side of workspace
     clearInputSpace();
     createInputHeader();
-    createInputSection();
+    createInputSection(id);
 
     // Prep right side of workspace
     clearOutputSpace();
     createOutputHeader();
-    createOutputSection();
+    createOutputSection(id);
 
     $('#workspace').removeClass('hidden');
 }
@@ -167,7 +167,7 @@ function createInputHeader() {
     input_space.appendChild(input_header);
 }
 
-function createInputSection() {
+function createInputSection(id) {
     var input_space = document.getElementById('wsInput');
     var action = new XMLHttpRequest();
 
@@ -206,8 +206,7 @@ function createInputSection() {
             }
        }
     };
-    uuid = $('.list-group-item.active').attr('id');
-    action.open('GET', '/components?uuid='+uuid);
+    action.open('GET', '/components?uuid='+id);
     action.send();
 }
 
@@ -286,7 +285,7 @@ function createOutputHeader() {
     output_space.appendChild(output_header);
 }
 
-function createOutputSection() {
+function createOutputSection(id) {
     var output_space = document.getElementById('wsOutput');
 
     /*  Button as anchor type */
@@ -367,7 +366,7 @@ function AddWorkflowToGUI(elements) {
         entry.setAttribute('id', element.id);
 
         entry.onclick = function() {
-            loadWorkflow(element.name);
+            loadWorkflow(element.name, element.id);
             }
         entry.appendChild(document.createTextNode(element.name));
         list.appendChild(entry);
