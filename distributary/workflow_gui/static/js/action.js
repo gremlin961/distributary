@@ -21,7 +21,7 @@ $(document).ready(function () {
         modal.find('.modal-body input').val("");
     });
 
-    $('#attributes').addClass('hidden');
+    //$('#attributes').addClass('hidden');
     hideAllAttributes();
 
 //    // store the workflows in the session cache to retain across
@@ -283,7 +283,7 @@ function hideAllAttributes() {
     while (attributes.firstChild) {
         attributes.removeChild(attributes.firstChild);
     }
-    attributes.addClass('hidden');
+    $('#attributes').addClass('hidden');
 }
 
 function clearOutputSpace() {
