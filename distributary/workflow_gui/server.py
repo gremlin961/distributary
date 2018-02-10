@@ -226,7 +226,7 @@ def do_docker_job(request, docker_job):
             print(api_url)
 
             resp = requests.post(url + api_url, auth=HTTPBasicAuth(user, password), data=body, verify=False)
-            print(body, resp.json())
+            print(body, resp.text)
 
     db.session.add(docker_job)
     db.session.commit()
