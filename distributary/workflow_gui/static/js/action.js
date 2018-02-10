@@ -94,7 +94,7 @@ function sendComponentToServer(componentType, uuid)  {
             console.log(this.responseText);
             var results = JSON.parse(this.responseText);
             console.log(results);
-            if (results[0]['direction'].equals('from')) {
+            if (results[0]['direction']=='from') {
                 $('#workButtonInput').attr('id', results[0]['job_id']);
             }
        }
