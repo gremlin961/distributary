@@ -146,14 +146,14 @@ function AddInputComponent(componentType, exists) {
     work_item.appendChild(work_button);
     input_space.appendChild(work_item);
 
-    /* TODO: make this dynamic */
-    if(componentType == 'docker') {
-        $('#modalPlaceholder').load('/dockerlogin&job=' + $('.inputComponent' > a).attr('id'));
-    }
-
     if(!exists) {
         sendComponentToServer(componentType, $('.list-group-item.active').attr('id'))
     };
+
+    /* TODO: make this dynamic */
+    if(componentType == 'docker') {
+        $('#modalPlaceholder').load('/dockerlogin&job=' + $('.inputComponent > a').attr('id'));
+    }
 }
 
 function clearInputSpace() {
