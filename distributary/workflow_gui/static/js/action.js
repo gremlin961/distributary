@@ -139,7 +139,7 @@ function AddInputComponent(componentType, exists) {
     if(componentType == 'docker') {
         work_button.alt = "Docker DTR";
         work_button.innerHTML = "<img class='dockerImage icon' src='static/images/docker-official.svg'></img>";
-        $('#modalPlaceholder').load('/dockerlogin');
+        $('#modalPlaceholder').load('/dockerlogin&job=' + $('.inputComponent' > a).attr('id'));
     }
 
     work_button.id = 'workButtonInput';
