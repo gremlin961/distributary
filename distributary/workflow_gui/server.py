@@ -69,8 +69,6 @@ def components():
     data = json.loads(request.data)
 
     workflow = Workflows.query.filter_by(workflowUUID=data['uuid']).first()
-    tbl_components = workflow.jobs
-    print(tbl_components)
 
     if request.method == 'POST':
         print(data)
@@ -85,6 +83,9 @@ def components():
 
         components.append({'component':data['component'], 'job_id':str(component.id)})
     else:
+        tbl_components = workflow.jobs
+        print(tbl_components)
+
         for component in tbl_components:
             components.append({'component': component.type, 'job_id': str(component.id)})
             print(component)
