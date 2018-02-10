@@ -157,9 +157,9 @@ def docker_repos():
     return json.dumps(repos)
 
 
-@app.route('/attributes', methods=['POST'])
+@app.route('/attributes', methods=['GET'])
 def attributes():
-    job_id =  request.form.getlist('type')[0]
+    job_id =  request.args.get('job')
     template = 'attr_404.html';
 
     job = WorkflowJobs.query.filter_by(id=int(job_id)).first()
