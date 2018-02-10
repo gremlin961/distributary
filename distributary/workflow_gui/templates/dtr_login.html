@@ -41,9 +41,15 @@
                 success: function(text) {
                     $('#attributes').load('/attributes?job='+job_id, function()
                     {
+                        selected = $('#repos).attr('value');
                         data = JSON.parse(text);
                         data.forEach(function(repo) {
-                            $('#repos').append('<option value="'+repo+'">'+repo+'</option>');
+                            if (repo == selected) {
+                                $('#repos').append('<option value="'+repo+'" selected>'+repo+'</option>');
+                            }
+                            else {
+                                $('#repos').append('<option value="'+repo+'">'+repo+'</option>');
+                            }
                         });
                         $('.pluginAttributes').removeClass('hidden');
                         $('#attributes').removeClass('hidden');

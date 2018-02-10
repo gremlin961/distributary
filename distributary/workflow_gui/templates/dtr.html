@@ -10,25 +10,25 @@
             </div>
             <p>Select the items you wish to be notified on.</p>
             <div class="checkbox">
-              <label><input type="checkbox" name="tag_push" value="1" {% if job.tag_push==True %}checked{% else %}{% endif %}>Tag pushed to repository.</label>
+              <label><input type="checkbox" name="tag_push" value="1" {% if job.tagPush==True %}checked{% else %}{% endif %}>Tag pushed to repository.</label>
             </div>
             <div class="checkbox">
-              <label><input type="checkbox" name="tag_del" value="1">Tag deleted from repository</label>
+              <label><input type="checkbox" name="tag_del" value="1" {% if job.tagDel==True %}checked{% else %}{% endif %}>Tag deleted from repository</label>
             </div>
             <div class="checkbox">
-              <label><input type="checkbox" name="man_push" value="1">Manifest pushed to repository.</label>
+              <label><input type="checkbox" name="man_push" value="1" {% if job.manPush==True %}checked{% else %}{% endif %}>Manifest pushed to repository.</label>
             </div>
             <div class="checkbox">
-              <label><input type="checkbox" name="man_del" value="1">Manifest deleted from repository.</label>
+              <label><input type="checkbox" name="man_del" value="1" {% if job.manDel==True %}checked{% else %}{% endif %}>Manifest deleted from repository.</label>
             </div>
             <div class="checkbox">
-              <label><input type="checkbox" name="sec_comp" value="1">Security scan completed.</label>
+              <label><input type="checkbox" name="sec_comp" value="1" {% if job.secComp==True %}checked{% else %}{% endif %}>Security scan completed.</label>
             </div>
             <div class="checkbox">
-              <label><input type="checkbox" name="sec_fail" value="1">Security scan failed.</label>
+              <label><input type="checkbox" name="sec_fail" value="1" {% if job.secFail==True %}checked{% else %}{% endif %}>Security scan failed.</label>
             </div>
             <div class="checkbox">
-              <label><input type="checkbox" name="promote_img" value="1">Image promoted from repository.</label>
+              <label><input type="checkbox" name="promote_img" value="1" {% if job.promoteImg==True %}checked{% else %}{% endif %}>Image promoted from repository.</label>
             </div>
             <hr />
             <button type="submit" class="btn btn-default">Submit</button>
