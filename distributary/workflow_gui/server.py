@@ -211,6 +211,7 @@ def do_docker_job(request, docker_job):
     body['endpoint'] = 'https://stark-river-28638.herokuapp.com/post/'+request.form.get('uuid')
     body['key'] = docker_job.repository
 
+    headers = {'Content-Type':'application/json'}
     url = session['url']
     user = session['user']
     password = session['pass']
@@ -225,7 +226,7 @@ def do_docker_job(request, docker_job):
             api_url = "/api/v0/webhooks/"
             print(api_url)
 
-            resp = requests.post(url + api_url, auth=HTTPBasicAuth(user, password), data=body, verify=False)
+            resp = requests.post(url + api_url, headers=headers, auth=HTTPBasicAuth(user, password), data=body, verify=False)
             print(body, resp.text)
 
     db.session.add(docker_job)
