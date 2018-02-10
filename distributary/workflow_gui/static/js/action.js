@@ -152,7 +152,7 @@ function AddInputComponent(componentType, exists) {
 
     /* TODO: make this dynamic */
     if(componentType == 'docker') {
-        $('#modalPlaceholder').load('/dockerlogin&job=' + $('.inputComponent > a').attr('id'));
+        $('#modalPlaceholder').load('/dockerlogin?job=' + $('.inputComponent > a').attr('id'));
     }
 }
 
