@@ -195,7 +195,8 @@ def do_docker_job(request, docker_job):
 
     docker_job.repository = request.form.get('repos')
 
-    print(inspect(docker_job))
+    for key, val in docker_job.items():
+        print(key, val)
 
     for state in docker_states:
         if request.form.get(state) != None:
