@@ -181,16 +181,17 @@ def attributes():
 def create_webhook():
     print(request.form)
 
-    job = request.form.get('job')
+    job_id = request.form.get('job')
+    job = WorkflowJobs.query.filter_by(id=int(job_id)).first()
 
     if job.type == 'docker_workflow':
-        do_docker_job(request)
+        do_docker_job(request, job)
 
     return "ok", 200
 
 
-def do_docker_job(request):
-    docker_job = WorkflowJobs.query.filter_by(id=int(job)).first()
+def do_docker_job(request, docker_job):
+
 
     docker_job.repository = request.form.get('repos')
 
