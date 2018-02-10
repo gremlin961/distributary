@@ -72,16 +72,15 @@ def components():
 
     if request.method == 'POST':
         print(data)
-        component = WorkflowJobs(workflow_id=workflow.id)
 
         if data['component'] == 'docker':
+            component = DockerWorkflow(workflow_id=workflow.id)
             component.type = 'docker_workflow'
-            component.repository=' '
 
-        db.session.add(component)
-        db.session.commit()
+            db.session.add(component)
+            db.session.commit()
 
-        components.append({'component':data['component'], 'job_id':str(component.id)})
+            components.append({'component':data['component'], 'job_id':str(component.id)})
     else:
         tbl_components = workflow.jobs
         print(tbl_components)
