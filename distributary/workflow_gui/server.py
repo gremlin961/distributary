@@ -10,7 +10,7 @@ from requests.auth import HTTPBasicAuth
 import requests
 from distributary.common.dbaccess import db
 from distributary.db_manager.models.models import Workflows, WorkflowJobs, DockerWorkflow
-
+from sqlalchemy import inspect
 
 print("Top of server.py")
 
@@ -195,8 +195,12 @@ def do_docker_job(request, docker_job):
 
     docker_job.repository = request.form.get('repos')
 
+    print(inspect(docker_job))
+
     for state in docker_states:
         if request.form.get(state) != None:
+            print("Trying to set: ",state)
+            print("Request has: ", request.form.get(state))
             setattr(docker_job, state, True)
 
     db.session.add(docker_job)
