@@ -69,7 +69,9 @@ def components():
     data = json.loads(request.data)
     comp_uuid = data['uuid']
 
-    tbl_components = WorkflowJobs.query.filter_by(workflows = data['uuid']).all()
+    tbl_components = Workflows.query.filter_by(workflowUUID= data['uuid']).first().jobs
+    print(tbl_components)
+
     for component in tbl_components:
         components.append({'name': component.type})
         print (component)
