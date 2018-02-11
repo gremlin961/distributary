@@ -295,7 +295,7 @@ function createOutputSection(id) {
                     var job_id = component['job_id'];
                     if (direction == 'to') {
                         AddOutputComponent(componentType);
-                        $('#workButtonInput').attr('id', job_id);
+                        $('#workButtonOutput').attr('id', job_id);
                     }
                 });
             }
