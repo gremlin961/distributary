@@ -1,11 +1,29 @@
 <div class="pluginAttributes hidden">
+    <div class="alert alert-success alert-dismissible" style="display:none;" role="alert" id="successSlackAlert">
+      <strong>Success!</strong> Slack webhook integrated.
+      <button type="button" class="close"  onclick="hideAllAttributes();" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
     <h2>Directions</h2>
     <p>Enter the required information below.</p>
-    <form>
+    <form id="attributeForm">
       <div class="form-group">
-        <!-- <label for="slackInput1">Slack Channel</label> -->
-        <input type="text" class="form-control" id="slackInput1" placeholder="Slack Channel">
+        <label for="slackInput1">Slack Webhook</label>
+        <input type="text" class="form-control" name="url" id="slackInput1" placeholder="webhook">
       </div>
       <button type="submit" class="btn">Submit</button>
     </form>
+    <script>
+    $('#attributeForm').submit(function(event) {
+        event.preventDefault();
+        var formData = $(this).serialize();
+        $.ajax({
+            method: 'POST',
+            url: "{{ url_for('create_webhook') }}",
+            data: formData + '&uuid=' + $('.list-group-item.active').attr('id') + '&job=' + $('.inputComponent > a').attr('id'),
+            success: function() { $('#successSlackAlert').slideDown(); }
+        });
+    });
+    </script>
 </div>

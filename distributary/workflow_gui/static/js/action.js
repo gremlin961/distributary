@@ -61,18 +61,18 @@ function loadWorkflow(name, uuid) {
     $('#workspace').removeClass('hidden');
 }
 
-function getComponentsFromServer() {
-    var action = new XMLHttpRequest();
-
-    action.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
-            console.log(this.responseText);
-            var results = JSON.parse(this.responseText);
-            console.log(results);
-       }
-    };
-    action.open('GET', '/components');
-}
+//function getComponentsFromServer() {
+//    var action = new XMLHttpRequest();
+//
+//    action.onreadystatechange = function() {
+//        if (this.readyState == 4 && this.status == 200) {
+//            console.log(this.responseText);
+//            var results = JSON.parse(this.responseText);
+//            console.log(results);
+//       }
+//    };
+//    action.open('GET', '/components');
+//}
 
 function sendComponentToServer(componentType, uuid)  {
     var action = new XMLHttpRequest();
@@ -84,6 +84,9 @@ function sendComponentToServer(componentType, uuid)  {
             console.log(results);
             if (results[0]['direction']=='from') {
                 $('#workButtonInput').attr('id', results[0]['job_id']);
+            }
+            if (results[0]['direction']=='to') {
+                $('#workButtonOutput').attr('id', results[0]['job_id']);
             }
             updateComponents(componentType);
        }
@@ -100,7 +103,7 @@ function updateComponents(componentType) {
 }
 
 // User has selected a 'Connect from' component
-function AddInputComponent(componentType, exists) {
+function AddInputComponent(componentType) {
     //alert('Adding new input component.')
     clearInputSpace();
     createInputHeader();
@@ -131,10 +134,6 @@ function AddInputComponent(componentType, exists) {
 
     work_item.appendChild(work_button);
     input_space.appendChild(work_item);
-
-//    if(!exists) {
-//        sendComponentToServer(componentType, $('.list-group-item.active').attr('id'))
-//    };
 }
 
 function clearInputSpace() {
@@ -165,7 +164,7 @@ function createInputSection(id) {
             console.log(results);
             if (results.length > 0) {
                 // TODO: Remove Docker specifics
-                AddInputComponent('docker', true);
+                AddInputComponent('docker');
                 $('#workButtonInput').attr('id', results[0]['job_id']);
                 updateComponents('docker');
             }
@@ -192,7 +191,7 @@ function createInputSection(id) {
                 $('#dockerItem').click(function(e){
                     e.preventDefault();
                     var componentType = 'docker';
-                    AddInputComponent(componentType, false);
+                    AddInputComponent(componentType);
                     sendComponentToServer(componentType, $('.list-group-item.active').attr('id'));
                 });
             }
@@ -219,16 +218,20 @@ function AddOutputComponent(componentType) {
     var work_item = document.createElement("div");
     var work_button = document.createElement("a");
     work_button.href = '#';
-    work_item.className = "outputComponent";
+    work_item.className = "outputComponent "+componentType;
 
     /* TODO: make this dynamic */
-    if(componentType == 'slack') {
+    if(componentType == 'slack' || componentType == 'slack_workspace') {
         work_button.alt = "Slack"
         work_button.innerHTML = "<img class='slackImage icon' src='static/images/slack-1.svg'></img>";
         work_item.onclick = function() {
             hideAllAttributes();
-            //openAttributes(componentType);
-            /* $('.slackAttributes').removeClass('hidden'); */
+            $('#attributes').load('/attributes?job='+work_button.id, function()
+                {
+                    data = JSON.parse(text);
+                    $('.pluginAttributes').removeClass('hidden');
+                    $('#attributes').removeClass('hidden');
+                });
         }
     }
 
@@ -238,17 +241,18 @@ function AddOutputComponent(componentType) {
         work_button.innerHTML = "<img class='sparkImage icon' src='static/images/spark-logo.svg'></img>";
         work_item.onclick = function() {
             hideAllAttributes();
-            //openAttributes(componentType);
-            /* $('.sparkAttributes').removeClass('hidden'); */
+            $('#attributes').load('/attributes?job='+work_button.id, function()
+                {
+                    data = JSON.parse(text);
+                    $('.pluginAttributes').removeClass('hidden');
+                    $('#attributes').removeClass('hidden');
+                });
         }
     }
 
     work_button.id = 'workButtonOutput';
     work_item.appendChild(work_button);
     output_space.appendChild(work_item);
-
-    createOutputSection();
-
 }
 
 function hideAllAttributes() {
@@ -279,37 +283,61 @@ function createOutputHeader() {
 
 function createOutputSection(id) {
     var output_space = document.getElementById('wsOutput');
+    var action = new XMLHttpRequest();
 
-    /*  Button as anchor type */
-    var output_section = document.createElement("div");
-    output_section.className = "dropdown outputButtonSection";
-    var output_button = document.createElement("a");
-    output_button.alt = "Add input item."
-    output_button.href = '#';
-    output_button.className = "dropdown-toggle";
-    output_button.setAttribute("data-toggle", "dropdown");
-    output_button.innerHTML = "<img class='outputButton icon' src='static/images/add.svg'></img>";
+    action.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            console.log(this.responseText);
+            var results = JSON.parse(this.responseText);
+            console.log(results);
+            if (results.length > 0) {
+                results.forEach(function(component){
+                    var componentType = component['component'];
+                    var direction = component['direction'];
+                    var job_id = component['job'];
 
-    var output_buttion_list = document.createElement("ul");
-    output_buttion_list.className = "dropdown-menu";
-    output_buttion_list.innerHTML =
-        "<li><a href='#' id='slackItem'><img class='slackImage icon' src='static/images/slack-1.svg'></img></a></li><li><a href='#' id='sparkItem'><img class='sparkImage icon' src='static/images/spark-logo.svg'></img></a></li>";
+                    AddOutputComponent(componentType);
+                    $('#workButtonInput').attr('id', job_id);
+                    //updateComponents(componentType);
+                });
+            }
+            else {
+                // New entry
+                var output_section = document.createElement("div");
+                output_section.className = "dropdown outputButtonSection";
+                var output_button = document.createElement("a");
+                output_button.alt = "Add output item."
+                output_button.href = '#';
+                output_button.className = "dropdown-toggle";
+                output_button.setAttribute("data-toggle", "dropdown");
+                output_button.innerHTML = "<img class='outputButton icon' src='static/images/add.svg'></img>";
 
-    output_section.appendChild(output_buttion_list);
-    output_section.appendChild(output_button);
-    output_space.appendChild(output_section);
+                var output_buttion_list = document.createElement("ul");
+                output_buttion_list.className = "dropdown-menu";
+                output_buttion_list.innerHTML =
+                    "<li><a href='#' id='slackItem'><img class='slackImage icon' src='static/images/slack-1.svg'></img></a></li><li><a href='#' id='sparkItem'><img class='sparkImage icon' src='static/images/spark-logo.svg'></img></a></li>";
 
-    $('#slackItem').click(function(e){
-        e.preventDefault();
-        AddOutputComponent('slack');
-        hideAllAttributes();
-    });
+                output_section.appendChild(output_buttion_list);
+                output_section.appendChild(output_button);
+                output_space.appendChild(output_section);
 
-    $('#sparkItem').click(function(e){
-        e.preventDefault();
-        AddOutputComponent('spark');
-        hideAllAttributes();
-    });
+                // TODO: make these generic and consolidate
+                $('#slackItem').click(function(e){
+                    e.preventDefault();
+                    AddOutputComponent('slack');
+                    sendComponentToServer('slack', $('.list-group-item.active').attr('id'));
+                });
+
+                $('#sparkItem').click(function(e){
+                    e.preventDefault();
+                    AddOutputComponent('spark');
+                    sendComponentToServer('spark', $('.list-group-item.active').attr('id'));
+                });
+            }
+       }
+    };
+    action.open('GET', '/components?uuid='+id);
+    action.send();
 }
 
 function GetWorkflows()

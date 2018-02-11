@@ -1,5 +1,5 @@
 <div class="pluginAttributes hidden">
-    <div class="alert alert-success alert-dismissible" style="display:none;" role="alert" id="successAlert">
+    <div class="alert alert-success alert-dismissible" style="display:none;" role="alert" id="successDTRAlert">
         <strong>Success!</strong> DTR webhooks created.
         <button type="button" class="close"  onclick="hideAllAttributes();" data-dismiss="alert" aria-label="Close">
         <span aria-hidden="true">&times;</span>
@@ -48,7 +48,7 @@
             method: 'POST',
             url: "{{ url_for('create_webhook') }}",
             data: formData + '&uuid=' + $('.list-group-item.active').attr('id') + '&job=' + $('.inputComponent > a').attr('id'),
-            success: function() { $('#successAlert').slideDown(); }
+            success: function() { $('#successDTRAlert').slideDown(); }
         });
     });
     </script>

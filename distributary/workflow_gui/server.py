@@ -9,7 +9,7 @@ import json
 from requests.auth import HTTPBasicAuth
 import requests
 from distributary.common.dbaccess import db
-from distributary.db_manager.models.models import Workflows, WorkflowJobs, DockerWorkflow
+from distributary.db_manager.models.models import Workflows, WorkflowJobs, DockerWorkflow, SlackWorkflow, SparkWorkflow
 from sqlalchemy import inspect
 
 print("Top of server.py")
@@ -86,20 +86,27 @@ def components():
     if request.method == 'POST':
         print(data)
 
+        component = None
+
         if data['component'] == 'docker':
             component = DockerWorkflow(workflow_id=workflow.id)
             component.type = 'docker_workflow'
             component.direction = 'from'
-            db.session.add(component)
-            db.session.commit()
-
-            components.append({'component':data['component'], 'job_id':str(component.id), 'direction': component.direction})
 
         if data['component'] == 'slack':
-            pass
+            component = SlackWorkflow(workflow_id=workflow.id)
+            component.type = 'slack_workflow'
+            component.direction = 'to'
 
         if data['component'] == 'spark':
-            pass
+            component = SparkWorkflow(workflow_id=workflow.id)
+            component.type = 'spark_workflow'
+            component.direction = 'to'
+
+        if component != None:
+            db.session.add(component)
+            db.session.commit()
+            components.append({'component':data['component'], 'job_id':str(component.id), 'direction': component.direction})
 
     else:
         if workflow.jobs != None:
@@ -194,6 +201,12 @@ def create_webhook():
     if job.type == 'docker_workflow':
         do_docker_job(request, job)
 
+    if job.type == 'slack_workflow':
+        do_slack_job(request, job)
+
+    if job.type == 'spark_workflow':
+        do_spark_job(request, job)
+
     return "ok", 200
 
 
@@ -231,6 +244,17 @@ def do_docker_job(request, docker_job):
 
     db.session.add(docker_job)
     db.session.commit()
+
+
+def do_slack_job(request, slack_job):
+    slack_job.slackUrl = request.form.get('url')
+    db.session.add(slack_job)
+    db.session.commit()
+
+
+def do_spark_job(request, spark_job):
+    pass
+
 
 if __name__ == '__main__':
     print("Starting as main application")

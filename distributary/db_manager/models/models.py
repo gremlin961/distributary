@@ -1,5 +1,6 @@
 from distributary.common.dbaccess import db
 
+
 class DisUsers(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
@@ -7,6 +8,7 @@ class DisUsers(db.Model):
 
     def __repr__(self):
         return '<User %r>' % self.username
+
 
 class Workflows(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -16,6 +18,7 @@ class Workflows(db.Model):
 
     def __repr__(self):
         return 'Worker: <%r>, Name: <%r>' % self.workflowUUID, self.name
+
 
 class WorkflowJobs(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -27,6 +30,7 @@ class WorkflowJobs(db.Model):
         'polymorphic_identity':'workflow_jobs',
         'polymorphic_on':type
     }
+
 
 class DockerWorkflow(WorkflowJobs):
     id = db.Column(db.Integer, db.ForeignKey('workflow_jobs.id'), primary_key=True)
@@ -46,6 +50,19 @@ class DockerWorkflow(WorkflowJobs):
 
     def __repr__(self):
         return 'Docker repository <%r>' % self.repository
+
+class SlackWorkflow(WorkflowJobs):
+    id = db.Column(db.Integer, db.ForeignKey('workflow_jobs.id'), primary_key=True)
+    __mapper_args__ = {'polymorphic_identity': 'slack_workflow' }
+
+    slackUrl = db.Column(db.String(60))
+
+
+class SparkWorkflow(WorkflowJobs):
+    id = db.Column(db.Integer, db.ForeignKey('workflow_jobs.id'), primary_key=True)
+    __mapper_args__ = {'polymorphic_identity': 'spark_workflow' }
+
+    slackUrl = db.Column(db.String(60))
 
 
 print('Creating Tables')
