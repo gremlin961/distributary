@@ -221,7 +221,7 @@ function AddOutputComponent(componentType) {
     work_item.className = "outputComponent "+componentType;
 
     /* TODO: make this dynamic */
-    if(componentType == 'slack' || componentType == 'slack_workspace') {
+    if(componentType == 'slack' || componentType == 'slack_workflow') {
         work_button.alt = "Slack"
         work_button.innerHTML = "<img class='slackImage icon' src='static/images/slack-1.svg'></img>";
         work_item.onclick = function() {
@@ -235,7 +235,7 @@ function AddOutputComponent(componentType) {
     }
 
     /* TODO: make this dynamic */
-    if(componentType == 'spark') {
+    if(componentType == 'spark' || componentType == 'spark_workflow') {
         work_button.alt = "Spark"
         work_button.innerHTML = "<img class='sparkImage icon' src='static/images/spark-logo.svg'></img>";
         work_item.onclick = function() {
