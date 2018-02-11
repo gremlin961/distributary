@@ -228,7 +228,6 @@ function AddOutputComponent(componentType) {
             hideAllAttributes();
             $('#attributes').load('/attributes?job='+work_button.id, function()
                 {
-                    data = JSON.parse(text);
                     $('.pluginAttributes').removeClass('hidden');
                     $('#attributes').removeClass('hidden');
                 });
@@ -243,7 +242,6 @@ function AddOutputComponent(componentType) {
             hideAllAttributes();
             $('#attributes').load('/attributes?job='+work_button.id, function()
                 {
-                    data = JSON.parse(text);
                     $('.pluginAttributes').removeClass('hidden');
                     $('#attributes').removeClass('hidden');
                 });
@@ -295,49 +293,48 @@ function createOutputSection(id) {
                     var componentType = component['component'];
                     var direction = component['direction'];
                     var job_id = component['job'];
-
-                    AddOutputComponent(componentType);
-                    $('#workButtonInput').attr('id', job_id);
-                    //updateComponents(componentType);
+                    if (direction == 'in') {
+                        AddOutputComponent(componentType);
+                        $('#workButtonInput').attr('id', job_id);
+                    }
                 });
             }
-            else {
-                // New entry
-                var output_section = document.createElement("div");
-                output_section.className = "dropdown outputButtonSection";
-                var output_button = document.createElement("a");
-                output_button.alt = "Add output item."
-                output_button.href = '#';
-                output_button.className = "dropdown-toggle";
-                output_button.setAttribute("data-toggle", "dropdown");
-                output_button.innerHTML = "<img class='outputButton icon' src='static/images/add.svg'></img>";
+            // New entry
+            var output_section = document.createElement("div");
+            output_section.className = "dropdown outputButtonSection";
+            var output_button = document.createElement("a");
+            output_button.alt = "Add output item."
+            output_button.href = '#';
+            output_button.className = "dropdown-toggle";
+            output_button.setAttribute("data-toggle", "dropdown");
+            output_button.innerHTML = "<img class='outputButton icon' src='static/images/add.svg'></img>";
 
-                var output_buttion_list = document.createElement("ul");
-                output_buttion_list.className = "dropdown-menu";
-                output_buttion_list.innerHTML =
-                    "<li><a href='#' id='slackItem'><img class='slackImage icon' src='static/images/slack-1.svg'></img></a></li><li><a href='#' id='sparkItem'><img class='sparkImage icon' src='static/images/spark-logo.svg'></img></a></li>";
+            var output_buttion_list = document.createElement("ul");
+            output_buttion_list.className = "dropdown-menu";
+            output_buttion_list.innerHTML =
+                "<li><a href='#' id='slackItem'><img class='slackImage icon' src='static/images/slack-1.svg'></img></a></li><li><a href='#' id='sparkItem'><img class='sparkImage icon' src='static/images/spark-logo.svg'></img></a></li>";
 
-                output_section.appendChild(output_buttion_list);
-                output_section.appendChild(output_button);
-                output_space.appendChild(output_section);
+            output_section.appendChild(output_buttion_list);
+            output_section.appendChild(output_button);
+            output_space.appendChild(output_section);
 
-                // TODO: make these generic and consolidate
-                $('#slackItem').click(function(e){
-                    e.preventDefault();
-                    AddOutputComponent('slack');
-                    sendComponentToServer('slack', $('.list-group-item.active').attr('id'));
-                });
+            // TODO: make these generic and consolidate
+            $('#slackItem').click(function(e){
+                e.preventDefault();
+                AddOutputComponent('slack');
+                sendComponentToServer('slack', $('.list-group-item.active').attr('id'));
+            });
 
-                $('#sparkItem').click(function(e){
-                    e.preventDefault();
-                    AddOutputComponent('spark');
-                    sendComponentToServer('spark', $('.list-group-item.active').attr('id'));
-                });
-            }
-       }
+            $('#sparkItem').click(function(e){
+                e.preventDefault();
+                AddOutputComponent('spark');
+                sendComponentToServer('spark', $('.list-group-item.active').attr('id'));
+            });
+        }
     };
     action.open('GET', '/components?uuid='+id);
     action.send();
+
 }
 
 function GetWorkflows()
