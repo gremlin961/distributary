@@ -230,6 +230,7 @@ function AddOutputComponent(componentType) {
                 {
                     $('.pluginAttributes').removeClass('hidden');
                     $('#attributes').removeClass('hidden');
+                    $('#attributes').attr('job',work_button.id);
                 });
         }
     }
@@ -244,6 +245,7 @@ function AddOutputComponent(componentType) {
                 {
                     $('.pluginAttributes').removeClass('hidden');
                     $('#attributes').removeClass('hidden');
+                    $('#attributes').attr('job',work_button.id);
                 });
         }
     }

@@ -21,7 +21,7 @@
         $.ajax({
             method: 'POST',
             url: "{{ url_for('create_webhook') }}",
-            data: formData + '&uuid=' + $('.list-group-item.active').attr('id') + '&job=' + $('.inputComponent > a').attr('id'),
+            data: formData + '&uuid=' + $('.list-group-item.active').attr('id') + '&job=' + $(this).attr('job'),
             success: function() { $('#successSlackAlert').slideDown(); }
         });
     });
