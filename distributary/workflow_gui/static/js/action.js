@@ -292,7 +292,7 @@ function createOutputSection(id) {
                 results.forEach(function(component){
                     var componentType = component['component'];
                     var direction = component['direction'];
-                    var job_id = component['job'];
+                    var job_id = component['job_id'];
                     if (direction == 'to') {
                         AddOutputComponent(componentType);
                         $('#workButtonInput').attr('id', job_id);
