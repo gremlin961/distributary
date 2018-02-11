@@ -293,7 +293,7 @@ function createOutputSection(id) {
                     var componentType = component['component'];
                     var direction = component['direction'];
                     var job_id = component['job'];
-                    if (direction == 'in') {
+                    if (direction == 'to') {
                         AddOutputComponent(componentType);
                         $('#workButtonInput').attr('id', job_id);
                     }
