@@ -214,6 +214,16 @@ def create_webhook():
 def hook_up(uuid):
     print('Got webhook call for ', uuid, request.get_json())
 
+    workflow = Workflows.query.filter_by(workflowUUID=uuid)
+
+    for job in workflow.jobs:
+        if job.direction == 'to':
+            if job.type == 'slack_workflow':
+                # format the text message that will be sent to the Slack channel
+                slack_data = request.get_json()
+                slack_url = job.slackUrl
+                response = requests.post(slack_url, data=json.dumps(slack_data), headers={'Content-Type': 'application/json'})
+
     return 'ok', 200
 
 
