@@ -97,7 +97,7 @@ function sendComponentToServer(componentType, uuid)  {
 
 function updateComponents(componentType) {
     /* TODO: make this dynamic */
-    if(componentType == 'docker') {
+    if(componentType == 'docker' || componentType == 'docker_workflow') {
         $('#modalPlaceholder').load('/dockerlogin?job=' + $('.inputComponent > a').attr('id'));
     }
 }
@@ -125,7 +125,7 @@ function AddInputComponent(componentType) {
     }
 
     /* TODO: make this dynamic */
-    if(componentType == 'docker') {
+    if(componentType == 'docker' || componentType == 'docker_workflow') {
         work_button.alt = "Docker DTR";
         work_button.innerHTML = "<img class='dockerImage icon' src='static/images/docker-official.svg'></img>";
     }
@@ -163,12 +163,14 @@ function createInputSection(id) {
             var results = JSON.parse(this.responseText);
             console.log(results);
             if (results.length > 0) {
-                if (results['direction']=="from") {
-                    // TODO: Remove Docker specifics
-                    AddInputComponent('docker');
-                    $('#workButtonInput').attr('id', results[0]['job_id']);
-                    updateComponents('docker');
-                }
+                results.forEach(function(component) {
+                    if (component['direction']=="from") {
+                        // TODO: Remove Docker specifics
+                        AddInputComponent(component['component']);
+                        $('#workButtonInput').attr('id', component['job_id']);
+                        updateComponents(component['component']);
+                    }
+                });
             }
             else {
                 // New entry
