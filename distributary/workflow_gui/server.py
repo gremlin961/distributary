@@ -225,7 +225,7 @@ def hook_up(uuid):
                 if job.slackUrl != None:
                     slack_url = job.slackUrl
                     response = requests.post(slack_url, data=json.dumps(slack_data), headers={'Content-Type': 'application/json'})
-                    print('Slack response:',response.status_code, response.json())
+                    print('Slack response:',response.status_code)
 
     return 'ok', 200
 
