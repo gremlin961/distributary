@@ -165,7 +165,6 @@ function createInputSection(id) {
             if (results.length > 0) {
                 results.forEach(function(component) {
                     if (component['direction']=="from") {
-                        // TODO: Remove Docker specifics
                         AddInputComponent(component['component']);
                         $('#workButtonInput').attr('id', component['job_id']);
                         updateComponents(component['component']);
