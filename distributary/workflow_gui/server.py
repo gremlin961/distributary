@@ -219,6 +219,7 @@ def hook_up(uuid):
     for job in workflow.jobs:
         if job.direction == 'to':
             if job.type == 'slack_workflow':
+                print('Sending job', job.id, 'to Slack with', job.slackUrl)
                 # format the text message that will be sent to the Slack channel
                 slack_data = request.get_json()
                 slack_url = job.slackUrl
