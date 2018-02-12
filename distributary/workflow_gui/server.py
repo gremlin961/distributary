@@ -222,8 +222,10 @@ def hook_up(uuid):
                 print('Sending job', job.id, 'to Slack with', job.slackUrl)
                 # format the text message that will be sent to the Slack channel
                 slack_data = request.get_json()
-                slack_url = job.slackUrl
-                response = requests.post(slack_url, data=json.dumps(slack_data), headers={'Content-Type': 'application/json'})
+                if job.slackUrl != None:
+                    slack_url = job.slackUrl
+                    response = requests.post(slack_url, data=json.dumps(slack_data), headers={'Content-Type': 'application/json'})
+                    print(response.text)
 
     return 'ok', 200
 
