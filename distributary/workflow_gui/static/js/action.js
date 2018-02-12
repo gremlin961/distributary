@@ -163,10 +163,12 @@ function createInputSection(id) {
             var results = JSON.parse(this.responseText);
             console.log(results);
             if (results.length > 0) {
-                // TODO: Remove Docker specifics
-                AddInputComponent('docker');
-                $('#workButtonInput').attr('id', results[0]['job_id']);
-                updateComponents('docker');
+                if (results.direction=="from") {
+                    // TODO: Remove Docker specifics
+                    AddInputComponent('docker');
+                    $('#workButtonInput').attr('id', results[0]['job_id']);
+                    updateComponents('docker');
+                }
             }
             else {
                 // New entry
