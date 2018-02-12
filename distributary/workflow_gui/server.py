@@ -214,7 +214,7 @@ def create_webhook():
 def hook_up(uuid):
     print('Got webhook call for ', uuid, request.get_json())
 
-    workflow = Workflows.query.filter_by(workflowUUID=uuid)
+    workflow = Workflows.query.filter_by(workflowUUID=uuid).first()
 
     for job in workflow.jobs:
         if job.direction == 'to':
