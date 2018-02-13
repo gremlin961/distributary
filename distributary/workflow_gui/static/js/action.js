@@ -305,47 +305,53 @@ function createOutputSection(id) {
                     }
                 });
             }
-            // New entry
-            var output_section = document.createElement("div");
-            output_section.className = "dropdown outputButtonSection";
-
-            var output_button = document.createElement("a");
-            output_button.alt = "Add output item."
-            output_button.href = '#';
-            output_button.className = "btn btn-secondary dropdown-toggle";
-            output_button.setAttribute("data-toggle", "dropdown");
-            output_button.setAttribute("role", "button");
-            output_button.setAttribute("aria-haspopup", "true");
-            output_button.setAttribute("aria-expanded", "false");
-            output_button.setAttribute("id", "dropdownMenuLink");
-            output_button.innerHTML = "<img class='outputButton icon' src='static/images/add.svg'></img>";
-
-            var output_buttion_list = document.createElement("div");
-            output_buttion_list.className = "dropdown-menu";
-            output_buttion_list.setAttribute("aria-labelledby","dropdownMenuLink");
-            output_buttion_list.innerHTML ='<a class="dropdown-item" href="#" id="slackItem"><img class="slackImage icon" src="static/images/slack-1.svg"></img></a><a class="dropdown-item" href="#" id="sparkItem"><img class="sparkImage icon" src="static/images/spark-logo.svg"></img></a>';
-
-            output_section.appendChild(output_button);
-            output_section.appendChild(output_buttion_list);
-            output_space.appendChild(output_section);
-
-            // TODO: make these generic and consolidate
-            $('#slackItem').click(function(e){
-                e.preventDefault();
-                AddOutputComponent('slack');
-                sendComponentToServer('slack', $('.list-group-item.active').attr('id'));
-            });
-
-            $('#sparkItem').click(function(e){
-                e.preventDefault();
-                AddOutputComponent('spark');
-                sendComponentToServer('spark', $('.list-group-item.active').attr('id'));
-            });
+            addEntryButton();
         }
     };
     action.open('GET', '/components?uuid='+id);
     action.send();
 
+}
+
+function addEntryButton() {
+    // New entry
+    var output_section = document.createElement("div");
+    output_section.className = "dropdown outputButtonSection";
+
+    var output_button = document.createElement("a");
+    output_button.alt = "Add output item."
+    output_button.href = '#';
+    output_button.className = "btn btn-secondary dropdown-toggle";
+    output_button.setAttribute("data-toggle", "dropdown");
+    output_button.setAttribute("role", "button");
+    output_button.setAttribute("aria-haspopup", "true");
+    output_button.setAttribute("aria-expanded", "false");
+    output_button.setAttribute("id", "dropdownMenuLink");
+    output_button.innerHTML = "<img class='outputButton icon' src='static/images/add.svg'></img>";
+
+    var output_buttion_list = document.createElement("div");
+    output_buttion_list.className = "dropdown-menu";
+    output_buttion_list.setAttribute("aria-labelledby","dropdownMenuLink");
+    output_buttion_list.innerHTML ='<a class="dropdown-item" href="#" id="slackItem"><img class="slackImage icon" src="static/images/slack-1.svg"></img></a><a class="dropdown-item" href="#" id="sparkItem"><img class="sparkImage icon" src="static/images/spark-logo.svg"></img></a>';
+
+    output_section.appendChild(output_button);
+    output_section.appendChild(output_buttion_list);
+    output_space.appendChild(output_section);
+
+    // TODO: make these generic and consolidate
+    $('#slackItem').click(function(e){
+        e.preventDefault();
+        AddOutputComponent('slack');
+        sendComponentToServer('slack', $('.list-group-item.active').attr('id'));
+        addEntryButton();
+    });
+
+    $('#sparkItem').click(function(e){
+        e.preventDefault();
+        AddOutputComponent('spark');
+        sendComponentToServer('spark', $('.list-group-item.active').attr('id'));
+        addEntryButton();
+    });
 }
 
 function GetWorkflows()

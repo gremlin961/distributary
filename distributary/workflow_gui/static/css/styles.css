@@ -31,7 +31,7 @@ body {
 }
 
 .container-fluid .row .col-xs-6 {
-  overflow: auto;
+  /*overflow: auto;*/
   height: 100%;
   min-height: 100%;
   background-color: #efefef;
@@ -43,7 +43,7 @@ body {
 
 .container-fluid .row .col-xs-3 {
   background-color: #efefef;
-  overflow: auto;
+  /*overflow: auto;*/
   height: 100%;
   min-height: 100%;
   /*margin-left: 5px;*/
