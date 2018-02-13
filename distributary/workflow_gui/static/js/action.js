@@ -156,6 +156,7 @@ function createInputHeader() {
 function createInputSection(id) {
     var input_space = document.getElementById('wsInput');
     var action = new XMLHttpRequest();
+    var fromAction = false;
 
     action.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
@@ -165,13 +166,15 @@ function createInputSection(id) {
             if (results.length > 0) {
                 results.forEach(function(component) {
                     if (component['direction']=="from") {
+                        fromAction = true;
                         AddInputComponent(component['component']);
                         $('#workButtonInput').attr('id', component['job_id']);
                         updateComponents(component['component']);
                     }
                 });
             }
-            else {
+            // If we didn't get a input component from the server, make one
+            if (!fromAction) {
                 // New entry
                 var input_section = document.createElement("div");
                 input_section.className = "dropdown inputButtonSection";
