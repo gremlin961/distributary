@@ -293,6 +293,7 @@ function createOutputSection(id) {
             console.log(this.responseText);
             var results = JSON.parse(this.responseText);
             console.log(results);
+
             if (results.length > 0) {
                 results.forEach(function(component){
                     var componentType = component['component'];
@@ -319,7 +320,7 @@ function createOutputSection(id) {
             output_buttion_list.innerHTML =
                 "<li><a href='#' id='slackItem'><img class='slackImage icon' src='static/images/slack-1.svg'></img></a></li><li><a href='#' id='sparkItem'><img class='sparkImage icon' src='static/images/spark-logo.svg'></img></a></li>";
 
-            output_section.appendChild(output_buttion_list);
+            output_button.appendChild(output_buttion_list);
             output_section.appendChild(output_button);
             output_space.appendChild(output_section);
 
