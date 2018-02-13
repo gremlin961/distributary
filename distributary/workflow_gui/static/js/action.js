@@ -325,8 +325,8 @@ function createOutputSection(id) {
             output_buttion_list.setAttribute("aria-labelledby","dropdownMenuLink");
             output_buttion_list.innerHTML ='<a class="dropdown-item" href="#" id="slackItem"><img class="slackImage icon" src="static/images/slack-1.svg"></img></a><a class="dropdown-item" href="#" id="sparkItem"><img class="sparkImage icon" src="static/images/spark-logo.svg"></img></a>';
 
-            output_button.appendChild(output_buttion_list);
             output_section.appendChild(output_button);
+            output_section.appendChild(output_buttion_list);
             output_space.appendChild(output_section);
 
             // TODO: make these generic and consolidate
