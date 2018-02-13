@@ -315,6 +315,7 @@ function createOutputSection(id) {
 
 function addEntryButton() {
     // New entry
+    var output_space = document.getElementById('wsOutput');
     var output_section = document.createElement("div");
     output_section.className = "dropdown outputButtonSection";
 
