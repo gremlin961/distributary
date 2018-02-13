@@ -307,7 +307,7 @@ function createOutputSection(id) {
             }
             // New entry
             var output_section = document.createElement("div");
-            output_section.className = "dropup outputButtonSection";
+            output_section.className = "dropdown outputButtonSection";
 
             var output_button = document.createElement("a");
             output_button.alt = "Add output item."
