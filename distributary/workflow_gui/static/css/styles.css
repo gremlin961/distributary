@@ -31,7 +31,7 @@ body {
   min_height: 100%;
 }
 
-.container-fluid .row .col-xs-6 .center-col{
+.container-fluid .row .col-xs-6.center-col {
   /*overflow: auto;*/
   height: 100%;
   min-height: 100%;
