@@ -19,7 +19,7 @@ Handy Heroku commands -
 - heroku ps
 - heroku logs (--tail)
 - heroku stop <dyno>
-- heroku start <dyno>
+- heroku restart <dyno>
 - heroku pg:reset `Empties database.  Run heroku stop <dyno> first.`
 
 By default, Heroku uses PostgreSQL, so we are going to use that instead of sqlite3 for SQLAlchemy
