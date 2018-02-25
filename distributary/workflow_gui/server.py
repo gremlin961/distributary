@@ -221,7 +221,7 @@ def hook_up(uuid):
             url = None
             if job.type == 'slack_workflow':
                 print('Sending job', job.id, 'to Slack with', job.slackUrl)
-                if job.slackkUrl != None:
+                if job.slackUrl != None:
                     url = job.slackUrl
 
             if job.type == 'spark_workflow':
