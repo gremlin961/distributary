@@ -219,17 +219,24 @@ def hook_up(uuid):
     for job in workflow.jobs:
         if job.direction == 'to':
             url = None
-            if job.type == 'slack_workflow':
-                print('Sending job', job.id, 'to Slack with', job.slackUrl)
-                if job.slackUrl != None:
-                    url = job.slackUrl
 
-            if job.type == 'spark_workflow':
-                print('Sending job', job.id, 'to Spark with', job.sparkUrl)
-                # format the text message that will be sent to the Slack channel
-                data = request.get_json()
-                if job.sparkUrl != None:
-                    url = job.sparkUrl
+            try:
+                if job.type == 'slack_workflow':
+                    print('Sending job', job.id, 'to Slack with', job.slackUrl)
+                    if job.slackUrl != None:
+                        url = job.slackUrl
+            except:
+                print("Error sending to Slack webhook")
+
+            try:
+                if job.type == 'spark_workflow':
+                    print('Sending job', job.id, 'to Spark with', job.sparkUrl)
+                    # format the text message that will be sent to the Slack channel
+                    data = request.get_json()
+                    if job.sparkUrl != None:
+                        url = job.sparkUrl
+            except:
+                print("Error sending to Spark webhook")
 
             if url != None:
                 # format the text message that will be sent to the Slack channel
