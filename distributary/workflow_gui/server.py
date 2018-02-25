@@ -268,7 +268,7 @@ def do_slack_job(request, slack_job):
 
 def do_spark_job(request, spark_job):
     spark_job.sparkUrl = request.form.get('url')
-    db.session.add(slack_job)
+    db.session.add(spark_job)
     db.session.commit()
 
 

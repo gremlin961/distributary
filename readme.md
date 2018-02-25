@@ -18,6 +18,9 @@ To run in Heroku from a different branch -
 Handy Heroku commands -
 - heroku ps
 - heroku logs (--tail)
+- heroku stop <dyno>
+- heroku start <dyno>
+- heroku pg:reset `Empties database`
 
 By default, Heroku uses PostgreSQL, so we are going to use that instead of sqlite3 for SQLAlchemy
 - Using PostgreSQL 10.3.1
