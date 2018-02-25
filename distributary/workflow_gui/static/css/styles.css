@@ -36,7 +36,6 @@ body {
   height: 100%;
   min-height: 100%;
   background-color: #efefef;
-  border: 2px solid #333;
 }
 
 .container-fluid .row .col-xs-6 {
@@ -126,6 +125,10 @@ li:hover {
   height: 60%;*/
   position: relative;
   margin-top: 10px;
+}
+
+.icon:hover {
+  filter: invert(20%);
 }
 
 .inputButton:hover {
