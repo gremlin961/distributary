@@ -62,7 +62,7 @@ class SparkWorkflow(WorkflowJobs):
     id = db.Column(db.Integer, db.ForeignKey('workflow_jobs.id'), primary_key=True)
     __mapper_args__ = {'polymorphic_identity': 'spark_workflow' }
 
-    slackUrl = db.Column(db.String(60))
+    sparkUrl = db.Column(db.String(60))
 
 
 print('Creating Tables')

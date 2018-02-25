@@ -1,11 +1,29 @@
 <div class="pluginAttributes hidden">
+    <div class="alert alert-success alert-dismissible" style="display:none;" role="alert" id="successSlackAlert">
+      <strong>Success!</strong> Spark webhook integrated.
+      <button type="button" class="close"  onclick="hideAllAttributes();" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
     <h2>Directions</h2>
     <p>Enter the required information below.</p>
-    <form>
+    <form id="attributeForm">
       <div class="form-group">
-        <!-- <label for="sparkInput1">Spark Room</label> -->
-        <input type="text" class="form-control" id="sparkInput1" placeholder="Spark Room">
+        <label for="sparkInput1">Spark Webhook</label>
+        <input type="text" class="form-control" name="url" id="sparkInput1" placeholder="webhook" value="{{ url }}">
       </div>
       <button type="submit" class="btn">Submit</button>
     </form>
+    <script>
+    $('#attributeForm').submit(function(event) {
+        event.preventDefault();
+        var formData = $(this).serialize();
+        $.ajax({
+            method: 'POST',
+            url: "{{ url_for('create_webhook') }}",
+            data: formData + '&uuid=' + $('.list-group-item.active').attr('id') + '&job=' + $('#attributes').attr('job'),
+            success: function() { $('#successSparkAlert').slideDown(); }
+        });
+    });
+    </script>
 </div>
