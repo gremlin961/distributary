@@ -95,7 +95,17 @@
     }
 }
 
+#myFooter .footer-copyright {
+    background-color: #333333;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    /* text-align: center; */
+}
 
+#myFooter .footer-copyright p {
+    margin: 10px;
+    color: #ccc;
+}
 
 /* CSS used for positioning the footers at the bottom of the page. */
 /* You can remove this. */
