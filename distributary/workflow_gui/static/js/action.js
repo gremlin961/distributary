@@ -325,11 +325,12 @@ function addEntryButton() {
     var output_button = document.createElement("a");
     output_button.alt = "Add output item."
     output_button.href = '#';
-    output_button.className = "btn btn-secondary dropdown-toggle";
+    output_button.className = "dropdown-toggle";
+//    output_button.className = "btn btn-secondary dropdown-toggle";
     output_button.setAttribute("data-toggle", "dropdown");
-    output_button.setAttribute("role", "button");
-    output_button.setAttribute("aria-haspopup", "true");
-    output_button.setAttribute("aria-expanded", "false");
+//    output_button.setAttribute("role", "button");
+//    output_button.setAttribute("aria-haspopup", "true");
+//    output_button.setAttribute("aria-expanded", "false");
     output_button.setAttribute("id", "dropdownMenuLink");
     output_button.innerHTML = "<img class='outputButton icon' src='static/images/add.svg'></img>";
 
