@@ -186,7 +186,7 @@ def attributes():
         return render_template(template, url=job.slackUrl)
     if(job.type=='spark_workflow'):
         template='spark.html'
-        return render_template(template)
+        return render_template(template, url=job.sparkUrl)
 
     return render_template(template)
 
