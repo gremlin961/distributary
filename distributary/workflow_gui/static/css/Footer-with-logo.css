@@ -95,7 +95,7 @@
     }
 }
 
-#myFooter .footer-copyright a {
+#myFooter a.footer-copyright {
     background-color: #333;
     padding-top: 3px;
     padding-bottom: 3px;
