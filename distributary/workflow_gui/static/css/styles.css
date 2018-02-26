@@ -147,6 +147,12 @@ li:hover {
     height: 100px;
 }
 
+.icon.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 #workButtonInput {
   float: left;
   height: 100%;
