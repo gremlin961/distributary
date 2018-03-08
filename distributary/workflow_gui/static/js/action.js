@@ -175,7 +175,7 @@ function createInputSection(id) {
 
                 var input_buttion_list = document.createElement("ul");
                 input_buttion_list.className = "dropdown-menu";
-                input_buttion_list.innerHTML = "<li>Docker DTR</li>"; /* "<li><a href='#' id='dockerItem'><img class='dockerImage icon center' src='static/images/docker-official.svg'></img></a></li>";*/
+                input_buttion_list.innerHTML = "<li><button id='dockerItem'>Docker DTR</a></li>"; /* "<li><a href='#' id='dockerItem'><img class='dockerImage icon center' src='static/images/docker-official.svg'></img></a></li>";*/
 
                 input_section.appendChild(input_buttion_list);
                 input_section.appendChild(input_button);
