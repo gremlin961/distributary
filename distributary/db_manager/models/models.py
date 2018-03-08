@@ -70,8 +70,8 @@ class ServiceNowWorkflow(WorkflowJobs):
     __mapper_args__ = {'polymorphic_identity': 'service_now_workflow' }
 
     serviceNowUrl = db.Column(db.String(250))
-    user = db.Column(db.String(30), nullable=False)
-    password = db.Column(db.String(40), nullable=False)
+    user = db.Column(db.String(30))
+    password = db.Column(db.String(40))
     company = db.Column(db.String(40))
 
 
