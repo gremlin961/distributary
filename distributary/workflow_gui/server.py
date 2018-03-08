@@ -9,7 +9,7 @@ import json
 from requests.auth import HTTPBasicAuth
 import requests
 from distributary.common.dbaccess import db
-from distributary.db_manager.models.models import Workflows, WorkflowJobs, DockerWorkflow, SlackWorkflow, SparkWorkflow
+from distributary.db_manager.models.models import Workflows, WorkflowJobs, DockerWorkflow, SlackWorkflow, SparkWorkflow, ServiceNowWorkflow
 from sqlalchemy import inspect
 
 print("Top of server.py")
@@ -103,6 +103,11 @@ def components():
             component.type = 'spark_workflow'
             component.direction = 'to'
 
+        if data['component'] == 'serviceNow':
+            component = ServiceNowWorkflow(workflow_id=workflow.id)
+            component.type = 'service_now_workflow'
+            component.direction = 'to'
+
         if component != None:
             db.session.add(component)
             db.session.commit()
@@ -187,6 +192,9 @@ def attributes():
     if(job.type=='spark_workflow'):
         template='spark.html'
         return render_template(template, url=job.sparkUrl)
+    if(job.type=='service_now_workflow'):
+        template='service_now.html'
+        return render_template(template, job=job)
 
     return render_template(template)
 
@@ -207,6 +215,9 @@ def create_webhook():
     if job.type == 'spark_workflow':
         do_spark_job(request, job)
 
+    if job.type == 'service_now_workflow':
+        do_service_now_job(request, job)
+
     return "ok", 200
 
 
@@ -223,8 +234,7 @@ def hook_up(uuid):
             try:
                 if job.type == 'slack_workflow':
                     print('Sending job', job.id, 'to Slack with', job.slackUrl)
-                    if job.slackUrl != None:
-                        url = job.slackUrl
+                    return slack_delivery(request, job)
             except:
                 print("Error sending to Slack webhook")
 
@@ -233,19 +243,67 @@ def hook_up(uuid):
                     print('Sending job', job.id, 'to Spark with', job.sparkUrl)
                     # format the text message that will be sent to the Slack channel
                     data = request.get_json()
-                    if job.sparkUrl != None:
-                        url = job.sparkUrl
+                    return spark_delivery(request, job.sparkUrl)
             except:
                 print("Error sending to Spark webhook")
 
-            if url != None:
-                # format the text message that will be sent to the Slack channel
-                data = request.get_json()
-                formatted_data = {"text": data['type'] + ' ' + data['contents']['namespace'] + ' ' + data['contents']['repository']}
-                response = requests.post(url, data=json.dumps(formatted_data), headers={'Content-Type': 'application/json'})
-                print('Webhook response:', response.status_code, 'from ', url)
+            try:
+                if job.type == 'service_now_workflow':
+                    print('Sending job', job.id, 'to ServiceNow with', job.serviceNowUrl)
+                    # format the text message that will be sent to the Slack channel
+                    data = request.get_json()
+                    return service_now_delivery(request, job.serviceNowUrl)
+            except:
+                print("Error sending to Spark webhook")
 
-    return 'ok', 200
+    return 'Error', 400
+
+
+def spark_delivery(request, job):
+    if job.slackUrl != None:
+        # format the text message that will be sent to the Slack channel
+        data = request.get_json()
+        formatted_data = {"text": data['type'] + ' ' + data['contents']['namespace'] + ' ' + data['contents']['repository']}
+        response = requests.post(url, data=json.dumps(formatted_data), headers={'Content-Type': 'application/json'})
+        print('Webhook response:', response.status_code, 'from ', url)
+
+        return 'ok', 200
+    else:
+        return 'URL missing', 400
+
+
+def slack_delivery(request, job):
+    if job.sparkUrl != None:
+        # format the text message that will be sent to the Slack channel
+        data = request.get_json()
+        formatted_data = {"text": data['type'] + ' ' + data['contents']['namespace'] + ' ' + data['contents']['repository']}
+        response = requests.post(url, data=json.dumps(formatted_data), headers={'Content-Type': 'application/json'})
+        print('Webhook response:', response.status_code, 'from ', url)
+
+        return 'ok', 200
+    else:
+        return 'URL missing', 400
+
+
+def service_now_delivery(request, job):
+    if job.serviceNowUrl != None:
+        data = request.get_json()
+
+        # Set proper headers
+        headers = {"Content-Type": "application/json", "Accept": "application/json"}
+        # Do the HTTP request
+        response = requests.post(job.serviceNowUrl, auth=HTTPBasicAuth(job.user, job.password), headers=headers,
+                                 data="{\"description\":\"blah blah\",\"company\":{},\"short_description\":\"short\",\"sys_created_on\":\"\",\"sys_class_name\":\"promote\"}".format(job.company), verify=False)
+        # Check for HTTP codes other than 200
+        if response.status_code != 200:
+            print('Status:', response.status_code, 'Headers:', response.headers, 'Error Response:', response.json())
+
+        # Decode the JSON response into a dictionary and use the data
+        data = response.json()
+        print(data)
+        return 'ok', 200
+    else:
+        return 'URL missing', 400
 
 
 def do_docker_job(request, docker_job):
@@ -289,6 +347,14 @@ def do_spark_job(request, spark_job):
     db.session.commit()
 
 
+def do_service_now_job(request, service_now_job):
+    service_now_job.serviceNowUrl = request.form.get('url')
+    service_now_job.user = request.form.get('user')
+    service_now_job.password = request.form.get('password')
+    service_now_job.company = request.form.get('company')
+
+    db.session.add(service_now_job)
+    db.session.commit()
 
 if __name__ == '__main__':
     print("Starting as main application")

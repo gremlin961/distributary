@@ -1,0 +1,41 @@
+<div class="pluginAttributes hidden">
+    <div class="alert alert-success alert-dismissible" style="display:none;" role="alert" id="successServiceNowAlert">
+      <strong>Success!</strong> ServiceNow API integrated.
+      <button type="button" class="close"  onclick="hideAllAttributes();" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <h2>Directions</h2>
+    <p>Enter the required information below.</p>
+    <form id="attributeForm">
+      <div class="form-group">
+        <label for="serviceNowUrl">ServiceNow API URL</label>
+        <input type="text" class="form-control" name="url" id="serviceNowUrl" placeholder="API url" value="{{ job.url }}" required>
+      </div>
+      <div class="form-group">
+        <label for="serviceNowUser">ServiceNow API URL</label>
+        <input type="text" class="form-control" name="user" id="serviceNowUser" placeholder="API user" value="{{ job.user }}" required>
+      </div>
+      <div class="form-group">
+        <label for="serviceNowPassword">ServiceNow API URL</label>
+        <input type="password" class="form-control" name="password" id="serviceNowPassword" placeholder="API password" value="{{ job.password }}" required>
+      </div>
+      <div class="form-group">
+        <label for="serviceNowCompany">ServiceNow API URL</label>
+        <input type="text" class="form-control" name="company" id="serviceNowCompany" placeholder="Company" value="{{ job.company }}">
+      </div>
+      <button type="submit" class="btn">Submit</button>
+    </form>
+    <script>
+    $('#attributeForm').submit(function(event) {
+        event.preventDefault();
+        var formData = $(this).serialize();
+        $.ajax({
+            method: 'POST',
+            url: "{{ url_for('create_webhook') }}",
+            data: formData + '&uuid=' + $('.list-group-item.active').attr('id') + '&job=' + $('#attributes').attr('job'),
+            success: function() { $('#successServiceNowAlert').slideDown(); }
+        });
+    });
+    </script>
+</div>

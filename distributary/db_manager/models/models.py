@@ -65,5 +65,16 @@ class SparkWorkflow(WorkflowJobs):
     sparkUrl = db.Column(db.String(250))
 
 
+class ServiceNowWorkflow(WorkflowJobs):
+    id = db.Column(db.Integer, db.ForeignKey('workflow_jobs.id'), primary_key=True)
+    __mapper_args__ = {'polymorphic_identity': 'service_now_workflow' }
+
+    serviceNowUrl = db.Column(db.String(250))
+    user = db.Column(db.String(30), nullable=False)
+    password = db.Column(db.String(40), nullable=False)
+    company = db.Column(db.String(40))
+
+
+
 print('Creating Tables')
 db.create_all()
