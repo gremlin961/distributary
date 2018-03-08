@@ -61,19 +61,6 @@ function loadWorkflow(name, uuid) {
     $('#workspace').removeClass('hidden');
 }
 
-//function getComponentsFromServer() {
-//    var action = new XMLHttpRequest();
-//
-//    action.onreadystatechange = function() {
-//        if (this.readyState == 4 && this.status == 200) {
-//            console.log(this.responseText);
-//            var results = JSON.parse(this.responseText);
-//            console.log(results);
-//       }
-//    };
-//    action.open('GET', '/components');
-//}
-
 function sendComponentToServer(componentType, uuid)  {
     var action = new XMLHttpRequest();
 
@@ -127,7 +114,8 @@ function AddInputComponent(componentType) {
     /* TODO: make this dynamic */
     if(componentType == 'docker' || componentType == 'docker_workflow') {
         work_button.alt = "Docker DTR";
-        work_button.innerHTML = "<img class='dockerImage icon center' src='static/images/docker-official.svg'></img>";
+        /* work_button.innerHTML = "<img class='dockerImage icon center' src='static/images/docker-official.svg'></img>"; */
+        work_button.innerHTML = "<p>Docker DTR</p>";
     }
 
     work_button.id = 'workButtonInput';
@@ -187,7 +175,7 @@ function createInputSection(id) {
 
                 var input_buttion_list = document.createElement("ul");
                 input_buttion_list.className = "dropdown-menu";
-                input_buttion_list.innerHTML = "<li><a href='#' id='dockerItem'><img class='dockerImage icon center' src='static/images/docker-official.svg'></img></a></li>";
+                input_buttion_list.innerHTML = "<li>Docker DTR</li>"; /* "<li><a href='#' id='dockerItem'><img class='dockerImage icon center' src='static/images/docker-official.svg'></img></a></li>";*/
 
                 input_section.appendChild(input_buttion_list);
                 input_section.appendChild(input_button);
@@ -212,13 +200,8 @@ function clearAddComponentButton() {
 }
 
 function AddOutputComponent(componentType) {
-    //alert('Adding new output component.')
-
-    //clearOutputSpace();
-    clearAddComponentButton();
-    //createOutputHeader();
-
     var output_space = document.getElementById('wsOutput');
+    clearAddComponentButton();
 
     /*  Button as anchor type */
     var work_item = document.createElement("div");
@@ -229,7 +212,7 @@ function AddOutputComponent(componentType) {
     /* TODO: make this dynamic */
     if(componentType == 'slack' || componentType == 'slack_workflow') {
         work_button.alt = "Slack"
-        work_button.innerHTML = "<img class='slackImage icon center' src='static/images/slack-1.svg'></img>";
+        work_button.innerHTML = "<p>Slack</p>"; /*"<img class='slackImage icon center' src='static/images/slack-1.svg'></img>";*/
         work_item.onclick = function() {
             hideAllAttributes();
             $('#attributes').load('/attributes?job='+work_button.id, function()
@@ -244,7 +227,22 @@ function AddOutputComponent(componentType) {
     /* TODO: make this dynamic */
     if(componentType == 'spark' || componentType == 'spark_workflow') {
         work_button.alt = "Spark"
-        work_button.innerHTML = "<img class='sparkImage icon center' src='static/images/spark-logo.svg'></img>";
+        work_button.innerHTML = "<p>Spark</p>"; /*"<img class='sparkImage icon center' src='static/images/spark-logo.svg'></img>";*/
+        work_item.onclick = function() {
+            hideAllAttributes();
+            $('#attributes').load('/attributes?job='+work_button.id, function()
+                {
+                    $('.pluginAttributes').removeClass('hidden');
+                    $('#attributes').removeClass('hidden');
+                    $('#attributes').attr('job',work_button.id);
+                });
+        }
+    }
+
+    /* TODO: make this dynamic */
+    if(componentType == 'serviceNow' || componentType == 'service_now_workflow') {
+        work_button.alt = "ServiceNow"
+        work_button.innerHTML = "<p>ServiceNow</p>"; /*"<img class='sparkImage icon center' src='static/images/spark-logo.svg'></img>";*/
         work_item.onclick = function() {
             hideAllAttributes();
             $('#attributes').load('/attributes?job='+work_button.id, function()
@@ -326,18 +324,15 @@ function addEntryButton() {
     output_button.alt = "Add output item."
     output_button.href = '#';
     output_button.className = "dropdown-toggle";
-//    output_button.className = "btn btn-secondary dropdown-toggle";
     output_button.setAttribute("data-toggle", "dropdown");
-//    output_button.setAttribute("role", "button");
-//    output_button.setAttribute("aria-haspopup", "true");
-//    output_button.setAttribute("aria-expanded", "false");
     output_button.setAttribute("id", "dropdownMenuLink");
     output_button.innerHTML = "<img class='outputButton icon center' src='static/images/add.svg'></img>";
 
     var output_buttion_list = document.createElement("div");
     output_buttion_list.className = "dropdown-menu";
     output_buttion_list.setAttribute("aria-labelledby","dropdownMenuLink");
-    output_buttion_list.innerHTML ='<a class="dropdown-item" href="#" id="slackItem"><img class="slackImage icon center" src="static/images/slack-1.svg"></img></a><a class="dropdown-item" href="#" id="sparkItem"><img class="sparkImage icon center" src="static/images/spark-logo.svg"></img></a>';
+    /*output_buttion_list.innerHTML ='<a class="dropdown-item" href="#" id="slackItem"><img class="slackImage icon center" src="static/images/slack-1.svg"></img></a><a class="dropdown-item" href="#" id="sparkItem"><img class="sparkImage icon center" src="static/images/spark-logo.svg"></img></a>';*/
+    output_buttion_list.innerHTML ='<a class="dropdown-item" href="#" id="slackItem">Slack</a><a class="dropdown-item" href="#" id="sparkItem">Spark</a><a class="dropdown-item" href="#" id="serviceNowItem">ServiceNow</a>';
 
     output_section.appendChild(output_buttion_list);
     output_section.appendChild(output_button);
@@ -355,6 +350,13 @@ function addEntryButton() {
         e.preventDefault();
         AddOutputComponent('spark');
         sendComponentToServer('spark', $('.list-group-item.active').attr('id'));
+        addEntryButton();
+    });
+
+    $('#serviceNowItem').click(function(e){
+        e.preventDefault();
+        AddOutputComponent('serviceNow');
+        sendComponentToServer('serviceNow', $('.list-group-item.active').attr('id'));
         addEntryButton();
     });
 }
