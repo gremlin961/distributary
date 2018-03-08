@@ -243,7 +243,7 @@ def hook_up(uuid):
                     print('Sending job', job.id, 'to Spark with', job.sparkUrl)
                     # format the text message that will be sent to the Slack channel
                     data = request.get_json()
-                    return spark_delivery(request, job.sparkUrl)
+                    return spark_delivery(request, job)
             except:
                 print("Error sending to Spark webhook")
 
@@ -252,7 +252,7 @@ def hook_up(uuid):
                     print('Sending job', job.id, 'to ServiceNow with', job.serviceNowUrl)
                     # format the text message that will be sent to the Slack channel
                     data = request.get_json()
-                    return service_now_delivery(request, job.serviceNowUrl)
+                    return service_now_delivery(request, job)
             except:
                 print("Error sending to Spark webhook")
 
