@@ -288,7 +288,7 @@ def service_now_delivery(request, job):
             'company': job.company,
             'short_description': 'blah',
             'sys_created_on': 'Today',
-            'sys_class_name': 'delete'
+            'category': docker_states[1][1]
         }
 
         # Set proper headers
