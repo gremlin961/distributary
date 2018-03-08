@@ -229,43 +229,37 @@ def hook_up(uuid):
 
     for job in workflow.jobs:
         if job.direction == 'to':
-            url = None
-
             try:
                 if job.type == 'slack_workflow':
-                    print('Sending job', job.id, 'to Slack with', job.slackUrl)
+                    print('Sending job', job.id, 'to Slack at', job.slackUrl)
                     return slack_delivery(request, job)
             except:
-                print("Error sending to Slack webhook")
+                print("Error sending to endpoint for", job.type)
 
             try:
                 if job.type == 'spark_workflow':
-                    print('Sending job', job.id, 'to Spark with', job.sparkUrl)
-                    # format the text message that will be sent to the Slack channel
-                    data = request.get_json()
+                    print('Sending job', job.id, 'to Spark at', job.sparkUrl)
                     return spark_delivery(request, job)
             except:
-                print("Error sending to Spark webhook")
+                print("Error sending to endpoint for", job.type)
 
             try:
                 if job.type == 'service_now_workflow':
-                    print('Sending job', job.id, 'to ServiceNow with', job.serviceNowUrl)
-                    # format the text message that will be sent to the Slack channel
-                    data = request.get_json()
+                    print('Sending job', job.id, 'to ServiceNow at', job.serviceNowUrl)
                     return service_now_delivery(request, job)
             except:
-                print("Error sending to Spark webhook")
+                print("Error sending to endpoint for", job.type)
 
     return 'Error', 400
 
 
 def spark_delivery(request, job):
-    if job.slackUrl != None:
+    if job.sparkUrl != None:
         # format the text message that will be sent to the Slack channel
         data = request.get_json()
         formatted_data = {"text": data['type'] + ' ' + data['contents']['namespace'] + ' ' + data['contents']['repository']}
-        response = requests.post(url, data=json.dumps(formatted_data), headers={'Content-Type': 'application/json'})
-        print('Webhook response:', response.status_code, 'from ', url)
+        response = requests.post(job.sparkUrl, data=json.dumps(formatted_data), headers={'Content-Type': 'application/json'})
+        print('Webhook response:', response.status_code, 'from ', job.sparkUrl)
 
         return 'ok', 200
     else:
@@ -273,12 +267,12 @@ def spark_delivery(request, job):
 
 
 def slack_delivery(request, job):
-    if job.sparkUrl != None:
+    if job.slackUrl != None:
         # format the text message that will be sent to the Slack channel
         data = request.get_json()
         formatted_data = {"text": data['type'] + ' ' + data['contents']['namespace'] + ' ' + data['contents']['repository']}
-        response = requests.post(url, data=json.dumps(formatted_data), headers={'Content-Type': 'application/json'})
-        print('Webhook response:', response.status_code, 'from ', url)
+        response = requests.post(job.slackUrl, data=json.dumps(formatted_data), headers={'Content-Type': 'application/json'})
+        print('Webhook response:', response.status_code, 'from ', job.slackUrl)
 
         return 'ok', 200
     else:
@@ -289,11 +283,19 @@ def service_now_delivery(request, job):
     if job.serviceNowUrl != None:
         data = request.get_json()
 
+        pkg = {
+            'description': 'blah blah blah',
+            'company': job.company,
+            'short_description': 'blah',
+            'sys_created_on': 'Today',
+            'sys_class_name': 'delete'
+        }
+
         # Set proper headers
         headers = {"Content-Type": "application/json", "Accept": "application/json"}
         # Do the HTTP request
         response = requests.post(job.serviceNowUrl, auth=HTTPBasicAuth(job.user, job.password), headers=headers,
-                                 data="{\"description\":\"blah blah\",\"company\":{},\"short_description\":\"short\",\"sys_created_on\":\"\",\"sys_class_name\":\"promote\"}".format(job.company), verify=False)
+                                 data=json.dumps(pkg), verify=False)
         # Check for HTTP codes other than 200
         if response.status_code != 200:
             print('Status:', response.status_code, 'Headers:', response.headers, 'Error Response:', response.json())
