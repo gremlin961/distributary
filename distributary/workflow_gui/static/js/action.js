@@ -332,7 +332,7 @@ function addEntryButton() {
     output_buttion_list.className = "dropdown-menu";
     output_buttion_list.setAttribute("aria-labelledby","dropdownMenuLink");
     /*output_buttion_list.innerHTML ='<a class="dropdown-item" href="#" id="slackItem"><img class="slackImage icon center" src="static/images/slack-1.svg"></img></a><a class="dropdown-item" href="#" id="sparkItem"><img class="sparkImage icon center" src="static/images/spark-logo.svg"></img></a>';*/
-    output_buttion_list.innerHTML ='<a class="dropdown-item" href="#" id="slackItem">Slack</a><a class="dropdown-item" href="#" id="sparkItem">Spark</a><a class="dropdown-item" href="#" id="serviceNowItem">ServiceNow</a>';
+    output_buttion_list.innerHTML ='<button class="dropdown-item" id="slackItem">Slack</button><button class="dropdown-item" id="sparkItem">Spark</button><button class="dropdown-item" id="serviceNowItem">ServiceNow</button>';
 
     output_section.appendChild(output_buttion_list);
     output_section.appendChild(output_button);
