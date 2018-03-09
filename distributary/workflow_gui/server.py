@@ -301,7 +301,7 @@ def slack_delivery(request, job):
     if job.slackUrl != None:
         # format the text message that will be sent to the Slack channel
         data = request.get_json()
-        formatted_data = {"text": data['type'] + ' ' + data['contents']['namespace'] + ' ' + data['contents']['repository']}
+        formatted_data = {"text": data['type'] + ' ' + data['createdAt'] + ' ' + data['location']}
         response = requests.post(job.slackUrl, data=json.dumps(formatted_data), headers={'Content-Type': 'application/json'})
         print('Webhook response:', response.status_code, 'from ', job.slackUrl)
 
