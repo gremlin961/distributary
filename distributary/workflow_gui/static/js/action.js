@@ -115,7 +115,7 @@ function AddInputComponent(componentType) {
     if(componentType == 'docker' || componentType == 'docker_workflow') {
         work_button.alt = "Docker DTR";
         /* work_button.innerHTML = "<img class='dockerImage icon center' src='static/images/docker-official.svg'></img>"; */
-        work_button.innerHTML = "<p>Docker DTR</p>";
+        work_button.innerHTML = '<button type="button" class="btn btn-default" style="margin-right:10px;">Docker DTR</button>';
     }
 
     work_button.id = 'workButtonInput';
@@ -212,7 +212,7 @@ function AddOutputComponent(componentType) {
     /* TODO: make this dynamic */
     if(componentType == 'slack' || componentType == 'slack_workflow') {
         work_button.alt = "Slack"
-        work_button.innerHTML = "<p>Slack</p>"; /*"<img class='slackImage icon center' src='static/images/slack-1.svg'></img>";*/
+        work_button.innerHTML ='<button type="button" class="btn btn-default" style="margin-right:10px;">Slack</button>'; /*"<img class='slackImage icon center' src='static/images/slack-1.svg'></img>";*/
         work_item.onclick = function() {
             hideAllAttributes();
             $('#attributes').load('/attributes?job='+work_button.id, function()
@@ -227,7 +227,7 @@ function AddOutputComponent(componentType) {
     /* TODO: make this dynamic */
     if(componentType == 'spark' || componentType == 'spark_workflow') {
         work_button.alt = "Spark"
-        work_button.innerHTML = "<p>Spark</p>"; /*"<img class='sparkImage icon center' src='static/images/spark-logo.svg'></img>";*/
+        work_button.innerHTML = '<button type="button" class="btn btn-default" style="margin-right:10px;">Spark</button>'; /*"<img class='sparkImage icon center' src='static/images/spark-logo.svg'></img>";*/
         work_item.onclick = function() {
             hideAllAttributes();
             $('#attributes').load('/attributes?job='+work_button.id, function()
@@ -242,7 +242,7 @@ function AddOutputComponent(componentType) {
     /* TODO: make this dynamic */
     if(componentType == 'serviceNow' || componentType == 'service_now_workflow') {
         work_button.alt = "ServiceNow"
-        work_button.innerHTML = "<p>ServiceNow</p>"; /*"<img class='sparkImage icon center' src='static/images/spark-logo.svg'></img>";*/
+        work_button.innerHTML = '<button type="button" class="btn btn-default" style="margin-right:10px;">ServiceNow</button>'; /*"<img class='sparkImage icon center' src='static/images/spark-logo.svg'></img>";*/
         work_item.onclick = function() {
             hideAllAttributes();
             $('#attributes').load('/attributes?job='+work_button.id, function()
