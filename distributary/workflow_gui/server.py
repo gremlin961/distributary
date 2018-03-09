@@ -283,7 +283,7 @@ def compose_chatops_message(data):
             subs['os'],
             subs['architecture'],
             subs['author'],
-            subs['pushedAt)'])
+            subs['pushedAt'])
 
     elif 'TAG_DELETE' in data['type']:
         output += "\nNamespace: {}\nRepository: {}\nTag: {}\nImage Name: {}\nOS: {}\nArchitecture: {} \nAuthor: {}\nDeleted At: {}\n".format(
@@ -294,7 +294,7 @@ def compose_chatops_message(data):
             subs['os'],
             subs['architecture'],
             subs['author'],
-            subs['deletedAt)'])
+            subs['deletedAt'])
 
     elif 'MANIFEST_PUSH' in data['type']:
         output += "\nNamespace: {}\nRepository: {}\nImage Name: {}\nOS: {}\nArchitecture: {} \nAuthor: {}\nPushed At: {}\n".format(
@@ -304,7 +304,7 @@ def compose_chatops_message(data):
             subs['os'],
             subs['architecture'],
             subs['author'],
-            subs['pushedAt)'])
+            subs['pushedAt'])
 
     elif 'MANIFEST_DELETE' in data['type']:
         output += "\nNamespace: {}\nRepository: {}\nImage Name: {}\nOS: {}\nArchitecture: {} \nAuthor: {}\nDeleted At: {}\n".format(
@@ -314,7 +314,7 @@ def compose_chatops_message(data):
             subs['os'],
             subs['architecture'],
             subs['author'],
-            subs['deletedAt)'])
+            subs['deletedAt'])
 
     elif 'SCAN_COMPLETED' in data['type']:
         output += "\nNamespace: {}\nRepository: {}\nTag: {}\nImage Name: {}\n".format(
