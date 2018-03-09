@@ -227,6 +227,8 @@ def hook_up(uuid):
 
     workflow = Workflows.query.filter_by(workflowUUID=uuid).first()
 
+    print('\n\n',request.get_json(),'\n\n')
+
     for job in workflow.jobs:
         if job.direction == 'to':
             try:
