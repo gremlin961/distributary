@@ -264,15 +264,15 @@ def hook_up(uuid):
 
 def compose_chatops_message(data):
 
-    output = "Docker DTR Event\nType: {}\nCreated: {}\n Location: {}\n"
+    output = "Docker DTR Event\nType: {}\nCreated: {}\nLocation: {}\n".format(data['type'], data['createdAt'], data['location'])
     return output
 
 def spark_delivery(request, job):
     if job.sparkUrl != None:
         # format the text message that will be sent to the Slack channel
         data = request.get_json()
-        #formatted_data = {"text": data['type'] + ' ' + data['contents']['namespace'] + ' ' + data['contents']['repository']}
-        response = requests.post(job.sparkUrl, data=compose_chatops_message(data), headers={'Content-Type': 'application/json'})
+        formatted_data = {"text": compose_chatops_message(data)}
+        response = requests.post(job.sparkUrl, data=json.dumps(formatted_data), headers={'Content-Type': 'application/json'})
         print('Webhook response:', response.status_code, 'from ', job.sparkUrl)
 
         return 'ok', 200
@@ -285,7 +285,7 @@ def slack_delivery(request, job):
         # format the text message that will be sent to the Slack channel
         data = request.get_json()
         formatted_data = {"text": compose_chatops_message(data) }
-        response = requests.post(job.slackUrl, data=formatted_data, headers={'Content-Type': 'application/json'})
+        response = requests.post(job.slackUrl, data=json.dumps(formatted_data), headers={'Content-Type': 'application/json'})
         print('Webhook response:', response.status_code, 'from ', job.slackUrl)
 
         return 'ok', 200
