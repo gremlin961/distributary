@@ -227,7 +227,7 @@ def hook_up(uuid):
 
     workflow = Workflows.query.filter_by(workflowUUID=uuid).first()
 
-    print('\n\n',request.get_json(),'\n\n')
+    #print('\n\n',request.get_json(),'\n\n')
 
     for job in workflow.jobs:
         if job.direction == 'to':
@@ -255,12 +255,34 @@ def hook_up(uuid):
     return 'Error', 400
 
 
+def compose_chatops_message(data):
+    def dict_generator(indict, pre=None):
+        pre = pre[:] if pre else []
+        if isinstance(indict, dict):
+            for key, value in indict.items():
+                if isinstance(value, dict):
+                    for d in dict_generator(value, [key] + pre):
+                        yield d
+                elif isinstance(value, list) or isinstance(value, tuple):
+                    for v in value:
+                        for d in dict_generator(v, [key] + pre):
+                            yield d
+                else:
+                    yield pre + [key, value]
+        else:
+            yield indict
+
+    output = "".join(dict_generator(data, "Docker DTR Event"))
+    print(output)
+
+    return output
+
 def spark_delivery(request, job):
     if job.sparkUrl != None:
         # format the text message that will be sent to the Slack channel
         data = request.get_json()
-        formatted_data = {"text": data['type'] + ' ' + data['contents']['namespace'] + ' ' + data['contents']['repository']}
-        response = requests.post(job.sparkUrl, data=json.dumps(formatted_data), headers={'Content-Type': 'application/json'})
+        #formatted_data = {"text": data['type'] + ' ' + data['contents']['namespace'] + ' ' + data['contents']['repository']}
+        response = requests.post(job.sparkUrl, data=compose_chatops_message(data), headers={'Content-Type': 'application/json'})
         print('Webhook response:', response.status_code, 'from ', job.sparkUrl)
 
         return 'ok', 200
