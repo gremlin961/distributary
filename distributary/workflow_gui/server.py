@@ -264,7 +264,85 @@ def hook_up(uuid):
 
 def compose_chatops_message(data):
 
-    output = "Docker DTR Event\nType: {}\nCreated: {}\nLocation: {}\n".format(data['type'], data['createdAt'], data['location'])
+    output = "\nDocker DTR Event\nType: {}\nCreated: {}\nLocation: {}\n".format(data['type'], data['createdAt'], data['location'])
+
+    subs = data['contents']
+    if 'PROMOTION' in data['type']:
+        output += "\nSource Repository: {}\nSource Tag: {}\nTarget Repository: {}\nTarget Tag: {}\n".format(
+            subs['sourceRepository'],
+            subs['sourceTag'],
+            subs['targetRepository'],
+            subs['targetTag'])
+
+    elif 'TAG_PUSH' in data['type']:
+        output += "\nNamespace: {}\nRepository: {}\nTag: {}\nImage Name: {}\nOS: {}\nArchitecture: {} \nAuthor: {}\nPushed At: {}\n".format(
+            subs['namespace'],
+		    subs['repository'],
+		    subs['tag'],
+            subs['imageName'],
+            subs['os'],
+            subs['architecture'],
+            subs['author'],
+            subs['pushedAt)'])
+
+    elif 'TAG_DELETE' in data['type']:
+        output += "\nNamespace: {}\nRepository: {}\nTag: {}\nImage Name: {}\nOS: {}\nArchitecture: {} \nAuthor: {}\nDeleted At: {}\n".format(
+            subs['namespace'],
+            subs['repository'],
+            subs['tag'],
+            subs['imageName'],
+            subs['os'],
+            subs['architecture'],
+            subs['author'],
+            subs['deletedAt)'])
+
+    elif 'MANIFEST_PUSH' in data['type']:
+        output += "\nNamespace: {}\nRepository: {}\nImage Name: {}\nOS: {}\nArchitecture: {} \nAuthor: {}\nPushed At: {}\n".format(
+            subs['namespace'],
+            subs['repository'],
+            subs['imageName'],
+            subs['os'],
+            subs['architecture'],
+            subs['author'],
+            subs['pushedAt)'])
+
+    elif 'MANIFEST_DELETE' in data['type']:
+        output += "\nNamespace: {}\nRepository: {}\nImage Name: {}\nOS: {}\nArchitecture: {} \nAuthor: {}\nDeleted At: {}\n".format(
+            subs['namespace'],
+            subs['repository'],
+            subs['imageName'],
+            subs['os'],
+            subs['architecture'],
+            subs['author'],
+            subs['deletedAt)'])
+
+    elif 'SCAN_COMPLETED' in data['type']:
+        output += "\nNamespace: {}\nRepository: {}\nTag: {}\nImage Name: {}\n".format(
+            subs['namespace'],
+            subs['repository'],
+            subs['tag'],
+            subs['imageName'])
+        summary = subs['scanSummary']
+        output += "\nScan Summary\nNamespace: {}\nRepository: {}\nTag: {}\nCritical: {}\nMajor: {}\nMinor: {}\nLast Scan Status: {}\nCheck Completed At: {}\nRescan: {}\nForeign Layers: {}\n".format(
+            summary['namespace'],
+            summary['reponame'],
+            summary['tag'],
+            summary['critical'],
+            summary['major'],
+            summary['minor'],
+            summary['last_scan_status'],
+            summary['check_completed_at'],
+            summary['should_rescan'],
+            summary['has_foreign_layers'])
+
+    elif 'SCAN_FAILED' in data['type']:
+        output += "\nNamespace: {}\nRepository: {}\nTag: {}\nImage Name: {}\nError: {}\n".format(
+            subs['namespace'],
+            subs['repository'],
+            subs['tag'],
+            subs['imageName'],
+            subs['error'])
+
     return output
 
 def spark_delivery(request, job):
