@@ -225,6 +225,11 @@ def create_webhook():
 
 @app.route('/post/<uuid>', methods=['POST'])
 def hook_up(uuid):
+    def failed_comms(job):
+        print("Error sending to endpoint for", job.type)
+        traceback.print_exc()
+        return ('Error', 400)
+
     print('Got webhook call for ', uuid, request.get_json())
 
     workflow = Workflows.query.filter_by(workflowUUID=uuid).first()
@@ -240,22 +245,19 @@ def hook_up(uuid):
                     print('Sending job', job.id, 'to Slack at', job.slackUrl)
                     result = slack_delivery(request, job)
             except:
-                print("Error sending to endpoint for", job.type)
-                traceback.print_exc()
+                result = failed_comms(job)
             try:
                 if job.type == 'spark_workflow':
                     print('Sending job', job.id, 'to Spark at', job.sparkUrl)
                     result = spark_delivery(request, job)
             except:
-                print("Error sending to endpoint for", job.type)
-                traceback.print_exc()
+                result = failed_comms(job)
             try:
                 if job.type == 'service_now_workflow':
                     print('Sending job', job.id, 'to ServiceNow at', job.serviceNowUrl)
                     result = service_now_delivery(request, job)
             except:
-                print("Error sending to endpoint for", job.type)
-                traceback.print_exc()
+                result = failed_comms(job)
 
     return result
 
