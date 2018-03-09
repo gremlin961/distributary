@@ -229,6 +229,8 @@ def hook_up(uuid):
 
     workflow = Workflows.query.filter_by(workflowUUID=uuid).first()
 
+    result = ('Error', 400)
+
     #print('\n\n',request.get_json(),'\n\n')
 
     for job in workflow.jobs:
@@ -236,26 +238,26 @@ def hook_up(uuid):
             try:
                 if job.type == 'slack_workflow':
                     print('Sending job', job.id, 'to Slack at', job.slackUrl)
-                    return slack_delivery(request, job)
+                    result = slack_delivery(request, job)
             except:
                 print("Error sending to endpoint for", job.type)
-
+                traceback.print_exc()
             try:
                 if job.type == 'spark_workflow':
                     print('Sending job', job.id, 'to Spark at', job.sparkUrl)
-                    return spark_delivery(request, job)
+                    result = spark_delivery(request, job)
             except:
                 print("Error sending to endpoint for", job.type)
-
+                traceback.print_exc()
             try:
                 if job.type == 'service_now_workflow':
                     print('Sending job', job.id, 'to ServiceNow at', job.serviceNowUrl)
-                    return service_now_delivery(request, job)
+                    result = service_now_delivery(request, job)
             except:
                 print("Error sending to endpoint for", job.type)
                 traceback.print_exc()
 
-    return 'Error', 400
+    return result
 
 
 def compose_chatops_message(data):
