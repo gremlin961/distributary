@@ -298,11 +298,11 @@ def service_now_delivery(request, job):
         data = request.get_json()
 
         pkg = {
-            'description': 'blah blah blah',
+            'description': compose_chatops_message(data),
             'company': job.company,
-            'short_description': 'blah',
-            'sys_created_on': 'Today',
-            'category': docker_states[1][1]
+            'short_description': data['location'],
+            'sys_created_on': data['createdAt'],
+            'category': get_docker_state_code(data['type'])
         }
 
         # Set proper headers
@@ -320,6 +320,12 @@ def service_now_delivery(request, job):
         return 'ok', 200
     else:
         return 'URL missing', 400
+
+
+def get_docker_state_code(state):
+    for tuple in docker_states:
+        if state in tuple:
+            return docker_states[docker_states.index(tuple)][1]
 
 
 def do_docker_job(request, docker_job):
