@@ -263,25 +263,8 @@ def hook_up(uuid):
 
 
 def compose_chatops_message(data):
-    def dict_generator(indict, pre=None):
-        pre = pre[:] if pre else []
-        if isinstance(indict, dict):
-            for key, value in indict.items():
-                if isinstance(value, dict):
-                    for d in dict_generator(value, [key] + pre):
-                        yield d
-                elif isinstance(value, list) or isinstance(value, tuple):
-                    for v in value:
-                        for d in dict_generator(v, [key] + pre):
-                            yield d
-                else:
-                    yield pre + [key, value]
-        else:
-            yield indict
 
-    output = "".join(x for x in dict_generator(data))
-    print(output)
-
+    output = "Docker DTR Event\nType: {}\nCreated: {}\n Location: {}\n"
     return output
 
 def spark_delivery(request, job):
@@ -301,8 +284,8 @@ def slack_delivery(request, job):
     if job.slackUrl != None:
         # format the text message that will be sent to the Slack channel
         data = request.get_json()
-        formatted_data = {"text": data['type'] + ' ' + data['createdAt'] + ' ' + data['location']}
-        response = requests.post(job.slackUrl, data=json.dumps(formatted_data), headers={'Content-Type': 'application/json'})
+        formatted_data = {"text": compose_chatops_message(data) }
+        response = requests.post(job.slackUrl, data=formatted_data, headers={'Content-Type': 'application/json'})
         print('Webhook response:', response.status_code, 'from ', job.slackUrl)
 
         return 'ok', 200
