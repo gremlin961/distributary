@@ -11,6 +11,8 @@ import requests
 from distributary.common.dbaccess import db
 from distributary.db_manager.models.models import Workflows, WorkflowJobs, DockerWorkflow, SlackWorkflow, SparkWorkflow, ServiceNowWorkflow
 from sqlalchemy import inspect
+import traceback
+
 
 print("Top of server.py")
 
@@ -251,6 +253,7 @@ def hook_up(uuid):
                     return service_now_delivery(request, job)
             except:
                 print("Error sending to endpoint for", job.type)
+                traceback.print_exc()
 
     return 'Error', 400
 
