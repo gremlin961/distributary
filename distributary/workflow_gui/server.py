@@ -279,7 +279,7 @@ def compose_chatops_message(data):
         else:
             yield indict
 
-    output = "".join(dict_generator(data, "Docker DTR Event"))
+    output = "".join(x for x in dict_generator(data))
     print(output)
 
     return output
